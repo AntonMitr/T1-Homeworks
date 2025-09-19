@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-payment-table-3
+      author: Kotor
+      changes:
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_date
+                  type: DATE
+              - column:
+                  name: amount
+                  type: NUMERIC(18,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_credit
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: payed_at
+                  type: TIMESTAMP
+              - column:
+                  name: type
+                  type: VARCHAR(20)
+        - addForeignKeyConstraint:
+            baseTableName: payments
+            baseColumnNames: account_id
+            constraintName: fk_payments_accounts
+            referencedTableName: accounts
+            referencedColumnNames: id
