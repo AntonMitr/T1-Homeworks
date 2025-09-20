@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changeset/create-user-table.yml
+  - include:
+      file: classpath:db/changeset/create-product-table.yml
+  - include:
+      file: classpath:db/changeset/create-client-table.yml
+  - include:
+      file: classpath:db/changeset/create-client-product-table.yml

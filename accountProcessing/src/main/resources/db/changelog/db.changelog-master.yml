@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changeset/create-account-table.yml
+  - include:
+      file: classpath:db/changeset/create-card-table.yml
+  - include:
+      file: classpath:db/changeset/create-payment-table.yml
+  - include:
+      file: classpath:db/changeset/create-transaction-table.yml

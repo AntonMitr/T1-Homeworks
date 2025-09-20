@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changeset/create-product-registry-table.yml
+  - include:
+      file: classpath:db/changeset/create-payment-registry-table.yml
