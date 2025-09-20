@@ -1,12 +1,16 @@
 FROM bellsoft/liberica-openjre-alpine:21 AS layers
-WORKDIR /app
+WORKDIR /application
 COPY target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
 
-ENV DB_HOST=client-db
-ENV DB_PORT=5432
-ENV DB_NAME=client_processing
-ENV DB_USER=postgres
-ENV DB_PASSWORD=admin
+FROM bellsoft/liberica-openjre-alpine:21
+VOLUME /tmp
+RUN adduser -S spring-user
+USER spring-user
+COPY --from=layers /application/dependencies/ ./
+COPY --from=layers /application/spring-boot-loader/ ./
+COPY --from=layers /application/snapshot-dependencies/ ./
+COPY --from=layers /application/application/ ./
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
-EXPOSE 8081
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+EXPOSE 8080
