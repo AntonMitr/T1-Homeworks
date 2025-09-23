@@ -1,7 +1,0 @@
-POST http://localhost:8081/api/client-products
-Content-Type: application/json
-
-{
-  "clientId": 1,
-  "productId": 2
-}

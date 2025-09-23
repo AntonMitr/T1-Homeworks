@@ -31,7 +31,7 @@ public class KafkaProducer <T> {
             kafkaTemplate.send(topic, message).get();
             kafkaTemplate.send(
                     topic,
-                    1,
+                    0,
                     LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                     UUID.randomUUID().toString(),
                     message

@@ -13,6 +13,7 @@ import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ClientProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -56,6 +58,8 @@ public class ClientProductServiceImpl implements ClientProductService {
         //отправляем сообщение kafka
         String topic = getTopicByProductKey(product.getKey().name());
         productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(saved));
+
+        log.info("DTO перед возвратом: {}", saved);
 
         return clientProductMapper.toDto(saved);
     }
