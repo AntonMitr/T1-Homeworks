@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5-create-blacklist-registry-table
+      author: Kotor
+      changes:
+        - createTable:
+            tableName: blacklist_registry
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: document_type
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: document_id
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: blacklisted_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: reason
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: blacklist_expiration_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+
+        - addUniqueConstraint:
+            tableName: blacklist_registry
+            columnNames: document_type, document_id
+            constraintName: uk_blacklist_document

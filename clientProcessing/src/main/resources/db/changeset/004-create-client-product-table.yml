@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-client-product-table-4
+      id: 4-create-client-product-table
       author: Kotor
       changes:
         - createTable:

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-client-table-2
+      id: 2-create-client-table
       author: Kotor
       changes:
         - createTable:

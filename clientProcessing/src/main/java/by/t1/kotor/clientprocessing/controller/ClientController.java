@@ -1,0 +1,24 @@
+package by.t1.kotor.clientprocessing.controller;
+
+import by.t1.kotor.clientprocessing.model.dto.ClientRegistrationRequest;
+import by.t1.kotor.clientprocessing.model.dto.ClientResponse;
+import by.t1.kotor.clientprocessing.service.ClientService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/clients")
+@RequiredArgsConstructor
+public class ClientController {
+
+    private final ClientService clientService;
+
+    @PostMapping("/register")
+    public ResponseEntity<ClientResponse> register(
+            @RequestBody ClientRegistrationRequest request
+    ) {
+        ClientResponse response = clientService.registerClient(request);
+        return ResponseEntity.ok(response);
+    }
+}

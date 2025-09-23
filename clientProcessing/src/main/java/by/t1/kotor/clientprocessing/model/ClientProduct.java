@@ -16,11 +16,11 @@ import java.time.LocalDate;
 @Table(name = "client_products")
 public class ClientProduct extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

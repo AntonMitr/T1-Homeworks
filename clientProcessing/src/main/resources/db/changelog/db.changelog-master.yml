@@ -1,9 +1,11 @@
 databaseChangeLog:
   - include:
-      file: classpath:db/changeset/create-user-table.yml
+      file: classpath:db/changeset/001-create-user-table.yml
   - include:
-      file: classpath:db/changeset/create-product-table.yml
+      file: classpath:db/changeset/003-create-product-table.yml
   - include:
-      file: classpath:db/changeset/create-client-table.yml
+      file: classpath:db/changeset/002-create-client-table.yml
   - include:
-      file: classpath:db/changeset/create-client-product-table.yml
+      file: classpath:db/changeset/004-create-client-product-table.yml
+  - include:
+      file: classpath:db/changeset/005-create-blacklist-registry-table.yml

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-user-table-1
+      id: 1-create-user-table
       author: Kotor
       changes:
         - createTable:
