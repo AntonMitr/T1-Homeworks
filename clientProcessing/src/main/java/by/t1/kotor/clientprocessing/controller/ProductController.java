@@ -1,7 +1,7 @@
 package by.t1.kotor.clientprocessing.controller;
 
-import by.t1.kotor.clientprocessing.model.dto.ProductRequest;
-import by.t1.kotor.clientprocessing.model.dto.ProductResponse;
+import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
+import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import by.t1.kotor.clientprocessing.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,5 @@
 spring:
+
   application:
     name: accountProcessing
 
@@ -7,7 +8,42 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yml
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:account_processing}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:admin}
     driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+logging:
+  level:
+    ROOT: DEBUG
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
+
+t1:
+  scan-path: by.t1.kotor.accountprocessing
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:broker_t1:29092}
+    consumer:
+      group-id: t1-accountprocessing
+      card-id: card_id
+      account-id: account_id
+      max.poll.records: 10
+      session-timeout: 10000
+      heartbeat.interval: 3000
+    producer:
+      enable: true
+    topic:
+      client_products: client_products
+      client_cards: client_cards
+      client_transactions: client_transactions
+    listener:
+      poll-timeout: 1000
+
+server:
+  port: 8082

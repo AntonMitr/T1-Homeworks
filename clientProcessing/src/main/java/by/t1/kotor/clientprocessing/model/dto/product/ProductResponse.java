@@ -1,4 +1,4 @@
-package by.t1.kotor.clientprocessing.model.dto;
+package by.t1.kotor.clientprocessing.model.dto.product;
 
 import by.t1.kotor.clientprocessing.model.enums.KeyEnum;
 

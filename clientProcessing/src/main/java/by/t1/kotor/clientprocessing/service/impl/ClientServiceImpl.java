@@ -1,18 +1,19 @@
 package by.t1.kotor.clientprocessing.service.impl;
 
 import by.t1.kotor.clientprocessing.mapper.ClientMapper;
-import by.t1.kotor.clientprocessing.model.BlacklistRegistry;
 import by.t1.kotor.clientprocessing.model.Client;
 import by.t1.kotor.clientprocessing.model.User;
-import by.t1.kotor.clientprocessing.model.dto.ClientRegistrationRequest;
-import by.t1.kotor.clientprocessing.model.dto.ClientResponse;
+import by.t1.kotor.clientprocessing.model.dto.client.ClientRegistrationRequest;
+import by.t1.kotor.clientprocessing.model.dto.client.ClientResponse;
 import by.t1.kotor.clientprocessing.repository.BlacklistRegistryRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 

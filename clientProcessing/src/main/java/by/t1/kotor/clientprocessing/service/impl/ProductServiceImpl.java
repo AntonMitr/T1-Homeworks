@@ -2,8 +2,8 @@ package by.t1.kotor.clientprocessing.service.impl;
 
 import by.t1.kotor.clientprocessing.mapper.ProductMapper;
 import by.t1.kotor.clientprocessing.model.Product;
-import by.t1.kotor.clientprocessing.model.dto.ProductRequest;
-import by.t1.kotor.clientprocessing.model.dto.ProductResponse;
+import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
+import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ProductService;
 import lombok.RequiredArgsConstructor;

@@ -7,7 +7,5 @@ public enum KeyEnum {
     IPO,
     PC,
     PENS,
-    NS,
-    INS,
-    BS
+    NS
 }

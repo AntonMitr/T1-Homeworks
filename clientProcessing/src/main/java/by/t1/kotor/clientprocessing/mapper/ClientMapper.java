@@ -1,8 +1,8 @@
 package by.t1.kotor.clientprocessing.mapper;
 
 import by.t1.kotor.clientprocessing.model.Client;
-import by.t1.kotor.clientprocessing.model.dto.ClientRegistrationRequest;
-import by.t1.kotor.clientprocessing.model.dto.ClientResponse;
+import by.t1.kotor.clientprocessing.model.dto.client.ClientRegistrationRequest;
+import by.t1.kotor.clientprocessing.model.dto.client.ClientResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

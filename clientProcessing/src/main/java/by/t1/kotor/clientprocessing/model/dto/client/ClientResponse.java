@@ -1,4 +1,4 @@
-package by.t1.kotor.clientprocessing.model.dto;
+package by.t1.kotor.clientprocessing.model.dto.client;
 
 public record ClientResponse (
         String clientId,

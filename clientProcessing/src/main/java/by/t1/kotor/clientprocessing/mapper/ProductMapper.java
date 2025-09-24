@@ -1,8 +1,8 @@
 package by.t1.kotor.clientprocessing.mapper;
 
 import by.t1.kotor.clientprocessing.model.Product;
-import by.t1.kotor.clientprocessing.model.dto.ProductRequest;
-import by.t1.kotor.clientprocessing.model.dto.ProductResponse;
+import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
+import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import org.mapstruct.*;
 
 @Mapper(

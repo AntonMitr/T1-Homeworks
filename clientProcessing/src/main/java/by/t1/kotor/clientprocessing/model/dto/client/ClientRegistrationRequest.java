@@ -1,4 +1,4 @@
-package by.t1.kotor.clientprocessing.model.dto;
+package by.t1.kotor.clientprocessing.model.dto.client;
 
 import by.t1.kotor.clientprocessing.model.enums.DocumentTypeEnum;
 

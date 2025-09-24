@@ -1,7 +1,7 @@
 package by.t1.kotor.clientprocessing.controller;
 
-import by.t1.kotor.clientprocessing.model.dto.ClientRegistrationRequest;
-import by.t1.kotor.clientprocessing.model.dto.ClientResponse;
+import by.t1.kotor.clientprocessing.model.dto.client.ClientRegistrationRequest;
+import by.t1.kotor.clientprocessing.model.dto.client.ClientResponse;
 import by.t1.kotor.clientprocessing.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
