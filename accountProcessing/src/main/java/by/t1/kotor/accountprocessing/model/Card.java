@@ -27,7 +27,7 @@ public class Card extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_system")
-    private PaymentSystemEnum PaymentSystem;
+    private PaymentSystemEnum paymentSystem;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
