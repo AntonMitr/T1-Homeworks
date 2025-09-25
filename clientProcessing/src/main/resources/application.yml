@@ -1,5 +1,4 @@
 spring:
-
   application:
     name: clientProcessing
 
@@ -12,9 +11,6 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yml
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:client_processing}
-    user: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:admin}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -42,6 +38,7 @@ t1:
     producer:
       enable: true
     topic:
+      client_cards: client_cards
       client_products: client_products
       client_credit_products: client_credit_products
     listener:

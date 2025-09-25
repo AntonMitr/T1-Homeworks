@@ -1,8 +1,7 @@
 package by.t1.kotor.accountprocessing.kafka;
 
-import by.t1.kotor.accountprocessing.model.dto.AccountRequest;
-import by.t1.kotor.accountprocessing.model.dto.AccountResponse;
 import by.t1.kotor.accountprocessing.service.AccountService;
+import by.t1.kotor.common.model.dto.ClientProductMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -24,7 +23,7 @@ public class KafkaAccountConsumer {
     @KafkaListener(id = "${t1.kafka.consumer.account-id}",
             topics = "${t1.kafka.topic.client_products}",
             containerFactory = "accountKafkaListenerContainerFactory")
-    public void listener(@Payload List<AccountRequest> messageList,
+    public void listener(@Payload List<ClientProductMessage> messageList,
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {

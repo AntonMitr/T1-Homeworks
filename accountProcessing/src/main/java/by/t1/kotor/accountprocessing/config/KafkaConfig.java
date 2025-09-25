@@ -1,6 +1,7 @@
 package by.t1.kotor.accountprocessing.config;
 
 import by.t1.kotor.accountprocessing.model.dto.*;
+import by.t1.kotor.common.model.dto.ClientProductMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -97,8 +98,8 @@ public class KafkaConfig {
     }
 
     @Bean("accountKafkaListenerContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<String, AccountRequest> productFactory() {
-        return buildFactory(AccountRequest.class);
+    public ConcurrentKafkaListenerContainerFactory<String, ClientProductMessage> productFactory() {
+        return buildFactory(ClientProductMessage.class);
     }
 
 }

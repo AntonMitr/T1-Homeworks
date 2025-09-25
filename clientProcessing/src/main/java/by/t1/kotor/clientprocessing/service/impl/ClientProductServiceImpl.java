@@ -3,7 +3,7 @@ package by.t1.kotor.clientprocessing.service.impl;
 import by.t1.kotor.clientprocessing.kafka.KafkaProducer;
 import by.t1.kotor.clientprocessing.mapper.ClientProductMapper;
 import by.t1.kotor.clientprocessing.model.ClientProduct;
-import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductMessage;
+import by.t1.kotor.common.model.dto.ClientProductMessage;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductResponse;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
@@ -98,7 +98,7 @@ public class ClientProductServiceImpl implements ClientProductService {
 
         clientProductRepository.delete(clientProduct);
 
-        // сообщение о удалении
+        //кафка сообщение
         String topic = getTopicByProductKey(clientProduct.getProduct().getKey().name());
         productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(clientProduct));
     }

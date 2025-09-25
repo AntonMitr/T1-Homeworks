@@ -1,6 +1,5 @@
 package by.t1.kotor.clientprocessing.config;
 
-import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -23,7 +22,7 @@ public class KafkaConfig<T> {
     private String servers;
 
     @Bean
-    public ProducerFactory<String, ClientProductMessage> clientProductProducerFactory() {
+    public ProducerFactory<String, Object> generalProducerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -36,8 +35,8 @@ public class KafkaConfig<T> {
 
     @Bean
     @Primary
-    public KafkaTemplate<String, ClientProductMessage> clientProductKafkaTemplate() {
-        return new KafkaTemplate<>(clientProductProducerFactory());
+    public KafkaTemplate<String, Object> clientProductKafkaTemplate() {
+        return new KafkaTemplate<>(generalProducerFactory());
     }
 
 }

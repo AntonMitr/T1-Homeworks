@@ -1,7 +1,7 @@
 package by.t1.kotor.accountprocessing.service;
 
-import by.t1.kotor.accountprocessing.model.dto.CardRequest;
+import by.t1.kotor.common.model.dto.CardMessage;
 
 public interface CardService {
-    void create(CardRequest request);
+    void create(CardMessage message);
 }
