@@ -11,6 +11,7 @@ import org.mapstruct.*;
 )
 public interface ProductMapper {
 
+    @Mapping(target = "createDate", expression = "java(java.time.LocalDateTime.now())")
     Product toEntity(ProductRequest productRequest);
 
     ProductResponse toDto(Product product);

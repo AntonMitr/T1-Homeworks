@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-add-month-count-to-product-registry
+      author: Kotor
+      changes:
+        - addColumn:
+            tableName: product_registry
+            columns:
+              - column:
+                  name: month_count
+                  type: int
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false

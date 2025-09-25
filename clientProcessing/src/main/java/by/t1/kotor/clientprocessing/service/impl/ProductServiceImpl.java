@@ -7,6 +7,9 @@ import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +33,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ProductResponse> getAll() {
-        return productRepository.findAll()
-                .stream().map(productMapper::toDto).toList();
+    public Page<ProductResponse> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return productRepository.findAll(pageable)
+                .map(productMapper::toDto);
     }
 
     @Transactional(readOnly = true)
@@ -40,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse getById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
         return productMapper.toDto(product);
     }
 
@@ -47,8 +53,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse update(Long id, ProductRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
         product = productMapper.partialUpdate(request, product);
         productRepository.save(product);
+
         return productMapper.toDto(product);
     }
 
@@ -57,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
         if (!productRepository.existsById(id)) {
             throw new IllegalArgumentException("Product not found");
         }
+
         productRepository.deleteById(id);
     }
 

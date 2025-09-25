@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-payment-table-3
+      id: 004-create-transaction-table
       author: Kotor
       changes:
         - createTable:
-            tableName: payments
+            tableName: transactions
             columns:
               - column:
                   name: id
@@ -18,26 +18,37 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: payment_date
-                  type: DATE
+                  name: card_id
+                  type: BIGINT
+              - column:
+                  name: type
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
               - column:
                   name: amount
                   type: NUMERIC(18,2)
                   constraints:
                     nullable: false
               - column:
-                  name: is_credit
-                  type: BOOLEAN
-                  defaultValueBoolean: false
-              - column:
-                  name: payed_at
-                  type: TIMESTAMP
-              - column:
-                  name: type
+                  name: status
                   type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
         - addForeignKeyConstraint:
-            baseTableName: payments
+            baseTableName: transactions
             baseColumnNames: account_id
-            constraintName: fk_payments_accounts
+            constraintName: fk_transactions_accounts
             referencedTableName: accounts
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: card_id
+            constraintName: fk_transactions_cards
+            referencedTableName: cards
             referencedColumnNames: id

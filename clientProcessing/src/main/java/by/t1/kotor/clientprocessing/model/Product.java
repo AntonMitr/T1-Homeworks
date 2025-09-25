@@ -34,6 +34,6 @@ public class Product extends BaseEntity {
     }
 
     @Builder.Default
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ClientProduct> clientProductList = new ArrayList<>();
 }

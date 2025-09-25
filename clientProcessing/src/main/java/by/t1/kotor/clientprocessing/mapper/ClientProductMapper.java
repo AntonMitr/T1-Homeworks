@@ -5,7 +5,6 @@ import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductMessage
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductResponse;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
-import by.t1.kotor.clientprocessing.model.enums.StatusEnum;
 import org.mapstruct.*;
 
 @Mapper(
@@ -14,22 +13,19 @@ import org.mapstruct.*;
 )
 public interface ClientProductMapper {
 
-    @Mapping(target = "clientId", expression = "java(clientProduct.getClient().getId())")
-    @Mapping(target = "productId", expression = "java(clientProduct.getProduct().getId())")
-    @Mapping(target = "status", expression = "java(clientProduct.getStatus())")
-    @Mapping(target = "openDate", expression = "java(clientProduct.getOpenDate())")
-    @Mapping(target = "closeDate", expression = "java(clientProduct.getCloseDate())")
+    @Mapping(target = "clientId", source = "client.id")
+    @Mapping(target = "productId", source = "product.id")
     ClientProductResponse toDto(ClientProduct clientProduct);
 
-    @Mapping(target = "clientId", expression = "java(clientProduct.getClient().getId())")
-    @Mapping(target = "productId", expression = "java(clientProduct.getProduct().getId())")
-    @Mapping(target = "status", expression = "java(clientProduct.getStatus() != null ? clientProduct.getStatus().name() : null)")
-    ClientProductMessage toMessage(ClientProduct clientProduct);
 
-    ClientProduct toEntity(ClientProductRequest clientProductRequest);
+    @Mapping(target = "openDate", expression = "java(java.time.LocalDate.now())")
+    @Mapping(target = "status", expression = "java(by.t1.kotor.clientprocessing.model.enums.StatusEnum.ACTIVE)")
+    ClientProduct toEntity(ClientProductRequest request);
+
+    @Mapping(target = "clientId", source = "client.id")
+    @Mapping(target = "productId", source = "product.id")
+    ClientProductMessage toMessage(ClientProduct clientProduct);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     ClientProduct partialUpdate(ClientProductUpdate request, @MappingTarget ClientProduct clientProduct);
-
-
 }

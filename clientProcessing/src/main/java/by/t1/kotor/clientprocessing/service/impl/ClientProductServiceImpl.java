@@ -7,7 +7,6 @@ import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductMessage
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductResponse;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
-import by.t1.kotor.clientprocessing.model.enums.StatusEnum;
 import by.t1.kotor.clientprocessing.repository.ClientProductRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
@@ -15,11 +14,11 @@ import by.t1.kotor.clientprocessing.service.ClientProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -46,12 +45,9 @@ public class ClientProductServiceImpl implements ClientProductService {
         var product = productRepository.findById(request.productId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        ClientProduct clientProduct = ClientProduct.builder()
-                .client(client)
-                .product(product)
-                .openDate(LocalDate.now())
-                .status(StatusEnum.ACTIVE)
-                .build();
+        ClientProduct clientProduct = clientProductMapper.toEntity(request);
+        clientProduct.setClient(client);
+        clientProduct.setProduct(product);
 
         ClientProduct saved = clientProductRepository.save(clientProduct);
 
@@ -66,11 +62,11 @@ public class ClientProductServiceImpl implements ClientProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClientProductResponse> getAll() {
-        return clientProductRepository.findAll()
-                .stream()
-                .map(clientProductMapper::toDto)
-                .toList();
+    public Page<ClientProductResponse> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return clientProductRepository.findAll(pageable)
+                .map(clientProductMapper::toDto);
     }
 
     @Override

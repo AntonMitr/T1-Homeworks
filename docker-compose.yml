@@ -30,61 +30,61 @@ services:
     volumes:
       - client-data:/var/lib/postgresql/data
 
-  account-processing:
-    build: ./accountProcessing
-    container_name: account-processing
-    ports:
-      - "8082:8082"
-    environment:
-      DB_HOST: account-db
-      DB_PORT: 5432
-      DB_NAME: account_processing
-      DB_USER: postgres
-      DB_PASSWORD: admin
-    depends_on:
-      - account-db
-      - broker_t1
-      - broker_2_t1
-
-  account-db:
-    image: postgres:15
-    container_name: account-db
-    environment:
-      POSTGRES_DB: account_processing
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "5434:5432"
-    volumes:
-      - account-data:/var/lib/postgresql/data
-
-  credit-processing:
-    build: ./creditProcessing
-    container_name: credit-processing
-    ports:
-      - "8083:8083"
-    environment:
-      DB_HOST: credit-db
-      DB_PORT: 5432
-      DB_NAME: credit_processing
-      DB_USER: postgres
-      DB_PASSWORD: admin
-    depends_on:
-      - credit-db
-      - broker_t1
-      - broker_2_t1
-
-  credit-db:
-    image: postgres:15
-    container_name: credit-db
-    environment:
-      POSTGRES_DB: credit_processing
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "5435:5432"
-    volumes:
-      - credit-data:/var/lib/postgresql/data
+#  account-processing:
+#    build: ./accountProcessing
+#    container_name: account-processing
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      DB_HOST: account-db
+#      DB_PORT: 5432
+#      DB_NAME: account_processing
+#      DB_USER: postgres
+#      DB_PASSWORD: admin
+#    depends_on:
+#      - account-db
+#      - broker_t1
+#      - broker_2_t1
+#
+#  account-db:
+#    image: postgres:15
+#    container_name: account-db
+#    environment:
+#      POSTGRES_DB: account_processing
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: admin
+#    ports:
+#      - "5434:5432"
+#    volumes:
+#      - account-data:/var/lib/postgresql/data
+#
+#  credit-processing:
+#    build: ./creditProcessing
+#    container_name: credit-processing
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      DB_HOST: credit-db
+#      DB_PORT: 5432
+#      DB_NAME: credit_processing
+#      DB_USER: postgres
+#      DB_PASSWORD: admin
+#    depends_on:
+#      - credit-db
+#      - broker_t1
+#      - broker_2_t1
+#
+#  credit-db:
+#    image: postgres:15
+#    container_name: credit-db
+#    environment:
+#      POSTGRES_DB: credit_processing
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: admin
+#    ports:
+#      - "5435:5432"
+#    volumes:
+#      - credit-data:/var/lib/postgresql/data
 
   zookeeper_t1:
     image: confluentinc/cp-zookeeper:5.5.0
@@ -114,7 +114,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-
   broker_2_t1:
     image: confluentinc/cp-kafka:5.5.0
     hostname: broker_2_t1

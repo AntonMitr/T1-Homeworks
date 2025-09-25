@@ -20,7 +20,7 @@ public class ClientProduct extends BaseEntity {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

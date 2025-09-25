@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-card-table-2
+      id: 003-create-payment-table
       author: Kotor
       changes:
         - createTable:
-            tableName: cards
+            tableName: payments
             columns:
               - column:
                   name: id
@@ -18,23 +18,26 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: card_id
-                  type: VARCHAR(32)
+                  name: payment_date
+                  type: DATE
+              - column:
+                  name: amount
+                  type: NUMERIC(18,2)
                   constraints:
                     nullable: false
               - column:
-                  name: payment_system
-                  type: VARCHAR(16)
-                  constraints:
-                    nullable: false
+                  name: is_credit
+                  type: BOOLEAN
+                  defaultValueBoolean: false
               - column:
-                  name: status
+                  name: payed_at
+                  type: TIMESTAMP
+              - column:
+                  name: type
                   type: VARCHAR(20)
-                  constraints:
-                    nullable: false
         - addForeignKeyConstraint:
-            baseTableName: cards
+            baseTableName: payments
             baseColumnNames: account_id
-            constraintName: fk_cards_accounts
+            constraintName: fk_payments_accounts
             referencedTableName: accounts
             referencedColumnNames: id

@@ -30,6 +30,9 @@ public class ProductRegistry extends BaseEntity {
     @Column(name = "interest_rate")
     private BigDecimal interestRate;
 
+    @Column (name = "month_count")
+    private Integer monthCount;
+
     @Column(name = "open_date")
     private LocalDate openDate;
 
