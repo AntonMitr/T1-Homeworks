@@ -30,6 +30,7 @@ public class DataGeneratorConfig {
                 productRegistry.setAccountId((long) faker.number().numberBetween(1, 20));
                 productRegistry.setProductId((long) faker.number().numberBetween(1, 10));
                 productRegistry.setInterestRate(BigDecimal.valueOf(faker.number().randomDouble(4, 1, 10) / 100));
+                productRegistry.setMonthCount(random.nextInt(12) + 1);
                 productRegistry.setOpenDate(LocalDate.now().minusDays(random.nextInt(365)));
                 productRegistryRepository.save(productRegistry);
 

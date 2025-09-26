@@ -12,7 +12,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaProducer <T> {
+public class KafkaProducer<T> {
 
     private final KafkaTemplate<String, T> kafkaTemplate;
 

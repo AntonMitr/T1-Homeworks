@@ -1,7 +1,8 @@
 package by.t1.kotor.accountprocessing.config;
 
-import by.t1.kotor.accountprocessing.model.dto.*;
+import by.t1.kotor.accountprocessing.model.dto.CardRequest;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
+import by.t1.kotor.common.model.dto.TransactionMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -16,6 +17,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.backoff.FixedBackOff;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -100,6 +102,11 @@ public class KafkaConfig {
     @Bean("accountKafkaListenerContainerFactory")
     public ConcurrentKafkaListenerContainerFactory<String, ClientProductMessage> productFactory() {
         return buildFactory(ClientProductMessage.class);
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
 }

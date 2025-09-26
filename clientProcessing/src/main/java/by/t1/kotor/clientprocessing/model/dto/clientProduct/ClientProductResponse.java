@@ -10,4 +10,5 @@ public record ClientProductResponse(
         StatusEnum status,
         LocalDate openDate,
         LocalDate closeDate
-) {}
+) {
+}

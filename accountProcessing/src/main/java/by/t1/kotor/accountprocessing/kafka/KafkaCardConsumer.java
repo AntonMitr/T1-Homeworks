@@ -1,6 +1,5 @@
 package by.t1.kotor.accountprocessing.kafka;
 
-import by.t1.kotor.accountprocessing.model.dto.CardRequest;
 import by.t1.kotor.accountprocessing.service.CardService;
 import by.t1.kotor.common.model.dto.CardMessage;
 import lombok.RequiredArgsConstructor;

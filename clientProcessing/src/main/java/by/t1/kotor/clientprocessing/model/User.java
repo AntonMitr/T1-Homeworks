@@ -1,7 +1,9 @@
 package by.t1.kotor.clientprocessing.model;
 
 import by.t1.kotor.common.model.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @Getter

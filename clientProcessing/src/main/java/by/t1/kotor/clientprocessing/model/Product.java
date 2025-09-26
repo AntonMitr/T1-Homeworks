@@ -27,13 +27,12 @@ public class Product extends BaseEntity {
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
+    @Builder.Default
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ClientProduct> clientProductList = new ArrayList<>();
 
     @Transient
     public String getProductId() {
         return key.name() + super.getId();
     }
-
-    @Builder.Default
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ClientProduct> clientProductList = new ArrayList<>();
 }

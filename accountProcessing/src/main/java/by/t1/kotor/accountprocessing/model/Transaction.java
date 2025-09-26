@@ -5,7 +5,6 @@ import by.t1.kotor.accountprocessing.model.enums.TransactionTypeEnum;
 import by.t1.kotor.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

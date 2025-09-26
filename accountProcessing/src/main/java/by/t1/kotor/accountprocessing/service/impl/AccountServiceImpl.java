@@ -19,18 +19,24 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     public void createAccount(ClientProductMessage message) {
+        log.debug("Received message to create account: clientId={}, productId={}, status={}",
+                message.clientId(), message.productId(), message.status());
+
         accountRepository.findByClientIdAndProductId(message.clientId(), message.productId())
                 .orElseGet(() -> {
                     Account newAccount = Account.builder()
                             .clientId(message.clientId())
                             .productId(message.productId())
-                            .balance(BigDecimal.valueOf(0.0))
+                            .balance(BigDecimal.ZERO)
                             .status(AccountStatusEnum.valueOf(message.status()))
                             .cardExist(false)
-                            .build();;
-                    log.info("Мы сохранили{}", newAccount);
-                    return accountRepository.save(newAccount);
+                            .build();
+
+                    Account savedAccount = accountRepository.save(newAccount);
+                    log.info("Created new account: id={}, clientId={}, productId={}, status={}",
+                            savedAccount.getId(), savedAccount.getClientId(),
+                            savedAccount.getProductId(), savedAccount.getStatus());
+                    return savedAccount;
                 });
     }
-
 }

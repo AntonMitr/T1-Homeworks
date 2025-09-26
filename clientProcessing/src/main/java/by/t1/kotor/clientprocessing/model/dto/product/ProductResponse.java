@@ -9,4 +9,5 @@ public record ProductResponse(
         String name,
         KeyEnum key,
         LocalDateTime createDate
-) { }
+) {
+}

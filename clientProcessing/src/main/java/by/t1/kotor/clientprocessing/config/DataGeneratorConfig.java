@@ -52,12 +52,16 @@ public class DataGeneratorConfig {
             for (int i = 0; i < 10; i++) {
                 User user = new User();
                 String login;
-                do { login = faker.name().username(); } while (usedLogins.contains(login));
+                do {
+                    login = faker.name().username();
+                } while (usedLogins.contains(login));
                 usedLogins.add(login);
                 user.setLogin(login);
 
                 String email;
-                do { email = faker.internet().emailAddress(); } while (usedEmails.contains(email));
+                do {
+                    email = faker.internet().emailAddress();
+                } while (usedEmails.contains(email));
                 usedEmails.add(email);
                 user.setEmail(email);
                 user.setPassword(faker.internet().password(8, 16));
@@ -73,7 +77,9 @@ public class DataGeneratorConfig {
                 client.setDocumentType(faker.options().option(DocumentTypeEnum.class));
 
                 String documentId;
-                do { documentId = faker.idNumber().valid(); } while (usedDocumentIds.contains(documentId));
+                do {
+                    documentId = faker.idNumber().valid();
+                } while (usedDocumentIds.contains(documentId));
                 usedDocumentIds.add(documentId);
 
                 client.setDocumentId(documentId);

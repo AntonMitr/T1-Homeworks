@@ -2,6 +2,7 @@ package by.t1.kotor.clientprocessing.controller;
 
 import by.t1.kotor.clientprocessing.model.dto.card.CardRequest;
 import by.t1.kotor.clientprocessing.service.impl.CardRequestService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class CardController {
     private final CardRequestService cardRequestService;
 
     @PostMapping
-    public ResponseEntity<Void> createCard(@RequestBody CardRequest request) {
+    public ResponseEntity<Void> createCard(@Valid @RequestBody CardRequest request) {
         cardRequestService.sendCardCreateMessage(request);
         return ResponseEntity.accepted().build();
     }
