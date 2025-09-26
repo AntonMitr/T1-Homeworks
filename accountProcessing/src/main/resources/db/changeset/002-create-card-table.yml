@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-card-table
+      author: Kotor
+      changes:
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: card_id
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_system
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: cards
+            baseColumnNames: account_id
+            constraintName: fk_cards_accounts
+            referencedTableName: accounts
+            referencedColumnNames: id

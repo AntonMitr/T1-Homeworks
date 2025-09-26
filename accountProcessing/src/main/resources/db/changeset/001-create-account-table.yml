@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-account-table
+      author: Kotor
+      changes:
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: NUMERIC(18,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: interest_rate
+                  type: NUMERIC(4,2)
+              - column:
+                  name: is_recalc
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: card_exist
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
