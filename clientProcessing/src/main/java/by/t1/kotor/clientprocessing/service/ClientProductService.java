@@ -5,12 +5,14 @@ import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRespons
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface ClientProductService {
     ClientProductResponse create(ClientProductRequest request);
+
     Page<ClientProductResponse> getAll(int page, int size);
+
     ClientProductResponse getById(Long id);
+
     ClientProductResponse update(Long id, ClientProductUpdate clientProductUpdate);
+
     void delete(Long id);
 }

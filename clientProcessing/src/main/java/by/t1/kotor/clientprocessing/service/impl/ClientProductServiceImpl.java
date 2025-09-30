@@ -1,9 +1,11 @@
 package by.t1.kotor.clientprocessing.service.impl;
 
+import by.t1.kotor.clientprocessing.exception.ClientNotFoundException;
+import by.t1.kotor.clientprocessing.exception.ClientProductNotFoundException;
+import by.t1.kotor.clientprocessing.exception.ProductNotFoundException;
 import by.t1.kotor.clientprocessing.kafka.KafkaProducer;
 import by.t1.kotor.clientprocessing.mapper.ClientProductMapper;
 import by.t1.kotor.clientprocessing.model.ClientProduct;
-import by.t1.kotor.common.model.dto.ClientProductMessage;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductResponse;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
@@ -11,12 +13,12 @@ import by.t1.kotor.clientprocessing.repository.ClientProductRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ClientProductService;
+import by.t1.kotor.common.model.dto.ClientProductMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,23 +41,24 @@ public class ClientProductServiceImpl implements ClientProductService {
 
     @Override
     public ClientProductResponse create(ClientProductRequest request) {
-        var client = clientRepository.findById(request.clientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        log.info("Creating ClientProduct: {}", request);
 
+        var client = clientRepository.findById(request.clientId())
+                .orElseThrow(() -> new ClientNotFoundException(request.clientId()));
         var product = productRepository.findById(request.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException(request.productId()));
 
         ClientProduct clientProduct = clientProductMapper.toEntity(request);
         clientProduct.setClient(client);
         clientProduct.setProduct(product);
 
         ClientProduct saved = clientProductRepository.save(clientProduct);
+        log.debug("Saved ClientProduct entity: {}", saved);
 
-        //отправляем сообщение kafka
+        // отправка Kafka
         String topic = getTopicByProductKey(product.getKey().name());
-        productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(saved));
-
-        log.info("DTO перед возвратом: {}", saved);
+        productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(request));
+        log.info("Sent ClientProductMessage to topic {}: {}", topic, request);
 
         return clientProductMapper.toDto(saved);
     }
@@ -63,56 +66,52 @@ public class ClientProductServiceImpl implements ClientProductService {
     @Override
     @Transactional(readOnly = true)
     public Page<ClientProductResponse> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        return clientProductRepository.findAll(pageable)
+        log.info("Fetching all ClientProducts, page={}, size={}", page, size);
+        return clientProductRepository.findAll(PageRequest.of(page, size))
                 .map(clientProductMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public ClientProductResponse getById(Long id) {
+        log.info("Fetching ClientProduct by id={}", id);
         ClientProduct clientProduct = getEntity(id);
-
         return clientProductMapper.toDto(clientProduct);
     }
 
     @Override
     public ClientProductResponse update(Long id, ClientProductUpdate clientProductUpdate) {
+        log.info("Updating ClientProduct id={}, update={}", id, clientProductUpdate);
         ClientProduct clientProduct = getEntity(id);
 
         clientProductMapper.partialUpdate(clientProductUpdate, clientProduct);
-
         ClientProduct updated = clientProductRepository.save(clientProduct);
 
-        //кафка сообщение
-        String topic = getTopicByProductKey(updated.getProduct().getKey().name());
-        productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(updated));
-
+        log.debug("Updated ClientProduct entity: {}", updated);
         return clientProductMapper.toDto(updated);
     }
 
     @Override
     public void delete(Long id) {
+        log.info("Deleting ClientProduct id={}", id);
         ClientProduct clientProduct = getEntity(id);
-
         clientProductRepository.delete(clientProduct);
-
-        //кафка сообщение
-        String topic = getTopicByProductKey(clientProduct.getProduct().getKey().name());
-        productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(clientProduct));
+        log.info("Deleted ClientProduct id={}", id);
     }
 
     private ClientProduct getEntity(Long id) {
         return clientProductRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ClientProduct not found"));
+                .orElseThrow(() -> new ClientProductNotFoundException(id));
     }
 
     private String getTopicByProductKey(String key) {
         return switch (key) {
             case "DC", "CC", "NS", "PENS" -> clientProductsTopic;
             case "IPO", "PC", "AC" -> clientCreditProductsTopic;
-            default -> throw new IllegalArgumentException("Unknown product key: " + key);
+            default -> {
+                log.error("Unknown product key: {}", key);
+                throw new IllegalArgumentException("Unknown product key: " + key);
+            }
         };
     }
 }

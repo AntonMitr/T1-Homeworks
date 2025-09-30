@@ -5,4 +5,5 @@ public record CardRequest(
         Long productId,
         String productKey,
         String cardType
-) {}
+) {
+}

@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "paymentRegistryList") // исключаем связь ManyToOne
 @Table(name = "product_registry")
 public class ProductRegistry extends BaseEntity {
 
@@ -30,7 +31,7 @@ public class ProductRegistry extends BaseEntity {
     @Column(name = "interest_rate")
     private BigDecimal interestRate;
 
-    @Column (name = "month_count")
+    @Column(name = "month_count")
     private Integer monthCount;
 
     @Column(name = "open_date")

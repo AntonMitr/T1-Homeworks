@@ -2,10 +2,9 @@ package by.t1.kotor.clientprocessing.model.dto.client;
 
 import by.t1.kotor.clientprocessing.model.enums.DocumentTypeEnum;
 
-
 import java.time.LocalDate;
 
-public record ClientRegistrationRequest (
+public record ClientRegistrationRequest(
         String firstName,
         String middleName,
         String lastName,
@@ -17,4 +16,5 @@ public record ClientRegistrationRequest (
         String login,
         String email,
         String password
-) { }
+) {
+}

@@ -31,7 +31,7 @@ public class Client extends BaseEntity {
     @Column(name = "middle_name")
     private String middleName;
 
-    @Column(name= "last_name")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "date_of_birth")
@@ -44,13 +44,13 @@ public class Client extends BaseEntity {
     @Column(name = "document_id")
     private String documentId;
 
-    @Column (name = "document_prefix")
+    @Column(name = "document_prefix")
     private String documentPrefix;
 
     @Column(name = "document_suffix")
     private String documentSuffix;
 
     @Builder.Default
-    @OneToMany(mappedBy = "client",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClientProduct> clientProducts = new ArrayList<>();
 }

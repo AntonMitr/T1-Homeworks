@@ -20,10 +20,10 @@ spring:
 
 logging:
   level:
-    ROOT: DEBUG
     org.apache.kafka: INFO
     org.hibernate.SQL: INFO
     by.t1.kotor.clientprocessing: DEBUG
+    root: DEBUG
 
 t1:
   scan-path: by.t1.kotor.clientprocessing
@@ -41,6 +41,7 @@ t1:
       client_cards: client_cards
       client_products: client_products
       client_credit_products: client_credit_products
+      client_transactions:  client_transactions
     listener:
       poll-timeout: 1000
 

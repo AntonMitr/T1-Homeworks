@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentRegistryRepository extends JpaRepository<PaymentRegistry, Long> {
+    boolean existsByProductRegistryId(Long productRegistryId);
 }

@@ -31,6 +31,9 @@ public class Payment extends BaseEntity {
     @Column(name = "is_credit")
     private Boolean isCredit;
 
+    @Column(name = "expired")
+    private Boolean expired;
+
     @Column(name = "payed_at")
     private LocalDateTime payedAt;
 

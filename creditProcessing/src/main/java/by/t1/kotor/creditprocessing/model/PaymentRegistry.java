@@ -13,10 +13,11 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "productRegistry")
 @Table(name = "payment_registry")
 public class PaymentRegistry extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_registry_id", nullable = false)
     private ProductRegistry productRegistry;
 

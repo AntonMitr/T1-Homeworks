@@ -6,5 +6,7 @@ public enum PaymentTypeEnum {
     RECURRING,
     FEE,
     REFUND,
-    REVERSAL
+    REVERSAL,
+    MONTHLY_INTEREST,
+    FULL_REPAYMENT
 }

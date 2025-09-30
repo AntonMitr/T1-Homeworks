@@ -4,6 +4,7 @@ import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRequest
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductResponse;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
 import by.t1.kotor.clientprocessing.service.ClientProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ClientProductController {
 
     @PostMapping
     public ResponseEntity<ClientProductResponse> create(
-            @RequestBody ClientProductRequest request
+            @Valid @RequestBody ClientProductRequest request
     ) {
         ClientProductResponse response = clientProductService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -40,7 +41,7 @@ public class ClientProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientProductResponse> update(@PathVariable("id") Long id,
-                                                             @RequestBody ClientProductUpdate clientProductUpdate) {
+                                                        @Valid @RequestBody ClientProductUpdate clientProductUpdate) {
         return ResponseEntity.ok(clientProductService.update(id, clientProductUpdate));
     }
 

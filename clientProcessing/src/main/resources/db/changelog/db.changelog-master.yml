@@ -9,3 +9,5 @@ databaseChangeLog:
       file: classpath:db/changeset/004-create-client-product-table.yml
   - include:
       file: classpath:db/changeset/005-create-blacklist-registry-table.yml
+  - include:
+      file: classpath:db/changeset/006-insert-sample-data.yml

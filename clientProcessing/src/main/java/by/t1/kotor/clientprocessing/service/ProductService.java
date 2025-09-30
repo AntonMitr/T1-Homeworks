@@ -6,8 +6,12 @@ import org.springframework.data.domain.Page;
 
 public interface ProductService {
     ProductResponse create(ProductRequest request);
+
     Page<ProductResponse> getAll(int page, int size);
+
     ProductResponse getById(Long id);
+
     ProductResponse update(Long id, ProductRequest request);
+
     void delete(Long id);
 }
