@@ -25,27 +25,27 @@ public class CreditDecisionService {
     @Value("${t1.credit.max-total-debt}")
     private BigDecimal limitTotalDebt;
 
-
     public void decideCredit(ClientProductMessage message) {
-        log.debug("Start decideCredit for clientId={}, productId={}", message.clientId(), message.productId());
+        log.debug("Start decideCredit for clientId={}, productId={}, creditAmount={}",
+                message.clientId(), message.productId(), message.creditAmount());
 
         ClientInfo clientInfo = clientInfoService.getClientInfo(message.clientId());
         BigDecimal currentDebt = creditService.calculateCurrentDebt(message.clientId());
         BigDecimal totalDebt = currentDebt.add(message.creditAmount());
         boolean hasExpired = creditService.hasExpired(message.clientId());
 
-        log.info("Client {} {} {}, currentDebt={}, totalDebt={}, hasExpired={}",
+        log.info("Client {} {} {} | currentDebt={}, totalDebt={}, hasExpired={}",
                 clientInfo.firstName(), clientInfo.middleName(), clientInfo.lastName(),
                 currentDebt, totalDebt, hasExpired);
 
         if (totalDebt.compareTo(limitTotalDebt) > 0) {
-            log.info("Credit denied: over limit for clientId={}", message.clientId());
+            log.info("Credit denied: totalDebt {} exceeds limit {} for clientId={}",
+                    totalDebt, limitTotalDebt, message.clientId());
         } else if (hasExpired) {
-            log.info("Credit denied: has expired for clientId={}", message.clientId());
+            log.info("Credit denied: clientId={} has expired payments", message.clientId());
         } else {
             productRegistryService.create(message);
-            log.info("Credit approved for clientId={}", message.clientId());
+            log.info("Credit approved for clientId={}, productId={}", message.clientId(), message.productId());
         }
     }
-
 }

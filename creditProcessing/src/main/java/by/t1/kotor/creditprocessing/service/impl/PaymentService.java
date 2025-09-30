@@ -14,17 +14,16 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PaymentScheduleService {
+public class PaymentService {
 
     private final KafkaProducer<PaymentRegistryMessage> kafkaProducer;
-    private final PaymentRegistryRepository paymentRegistryRepository;
     private final PaymentMapper paymentMapper;
+
     @Value("${t1.kafka.topic.payment-schedule}")
     private String TOPIC;
 
@@ -60,11 +59,11 @@ public class PaymentScheduleService {
             schedule.add(payment);
 
             PaymentRegistryMessage message = paymentMapper.toMessage(payment);
-
             kafkaProducer.sendTo(TOPIC, message);
-            log.debug("Send PaymentRegistryMessage: {}", message);
+            log.debug("Sent PaymentRegistryMessage to topic {}: {}", TOPIC, message);
         }
-        log.debug("Generated {} payment schedules for productRegistryId={}", schedule.size(), productRegistry.getId());
+
+        log.info("Generated {} payment schedules for productRegistryId={}", schedule.size(), productRegistry.getId());
         return schedule;
     }
 }

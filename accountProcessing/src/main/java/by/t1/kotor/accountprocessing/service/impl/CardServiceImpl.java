@@ -32,6 +32,7 @@ public class CardServiceImpl implements CardService {
     private final AccountService accountService;
     private final RestTemplate restTemplate;
     private final AccountRepository accountRepository;
+
     @Value("${t1.kafka.services.client-processing.url}")
     private String baseUrl;
 
@@ -55,7 +56,7 @@ public class CardServiceImpl implements CardService {
         }
 
         if (Boolean.TRUE.equals(account.getCardExist())) {
-            log.info("Card already exists for account {}, skipping creation", account.getId());
+            log.info("Card already exists for account {}. Skipping creation", account.getId());
             return;
         }
 
@@ -77,8 +78,7 @@ public class CardServiceImpl implements CardService {
         return cardRepository
                 .findByAccountId(accountId)
                 .orElseThrow(() -> {
-                    log.warn("Card not found for accountId={}",
-                            accountId);
+                    log.warn("Card not found for accountId={}", accountId);
                     return new IllegalArgumentException("Card not found");
                 });
     }
@@ -92,7 +92,7 @@ public class CardServiceImpl implements CardService {
                 log.warn("Product key is null for productId {}", productId);
             }
             return key;
-        } catch (RestClientException ex) {
+        } catch (Exception ex) {
             log.error("Error fetching product key for productId {}: {}", productId, ex.getMessage());
             return null;
         }

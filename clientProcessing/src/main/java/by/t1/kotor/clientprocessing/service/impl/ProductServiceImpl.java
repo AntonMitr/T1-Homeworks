@@ -45,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse getById(Long id) {
         log.info("Fetching product by id={}", id);
         Product product = getProductById(id);
-
         return productMapper.toDto(product);
     }
 
@@ -65,6 +64,7 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         log.info("Deleting product id={}", id);
         if (!productRepository.existsById(id)) {
+            log.warn("Product not found: id={}", id);
             throw new ProductNotFoundException(id);
         }
         productRepository.deleteById(id);
@@ -73,6 +73,9 @@ public class ProductServiceImpl implements ProductService {
 
     private Product getProductById(Long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId));
+                .orElseThrow(() -> {
+                    log.warn("Product not found: id={}", productId);
+                    return new ProductNotFoundException(productId);
+                });
     }
 }

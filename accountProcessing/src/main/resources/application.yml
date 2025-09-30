@@ -37,8 +37,9 @@ t1:
       group-id: t1-accountprocessing
       account-id: account-id
       card-id: card-id
+      paymentschedule-id: paymentschedule-id
       transaction-id: transaction-id
-      clientpayments-id: clientpayments-id
+      payments-id: clientpayments-id
       max.poll.records: 10
       session-timeout: 10000
       heartbeat.interval: 3000
@@ -49,6 +50,7 @@ t1:
       client_products: client_products
       client_transactions: client_transactions
       client-payments: client-payments
+      payment-schedule: payment-schedule
     listener:
       poll-timeout: 1000
 

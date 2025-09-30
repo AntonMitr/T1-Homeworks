@@ -109,6 +109,11 @@ public class KafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, ClientPaymentMessage> paymentFactory() {
         return buildFactory(ClientPaymentMessage.class);
     }
+
+    @Bean("paymentScheduleKafkaListenerContainerFactory")
+    public ConcurrentKafkaListenerContainerFactory<String, ClientPaymentMessage> paymentScheduleFactory() {
+        return buildFactory(ClientPaymentMessage.class);
+    }
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

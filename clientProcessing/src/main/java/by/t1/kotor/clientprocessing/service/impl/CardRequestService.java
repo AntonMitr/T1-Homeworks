@@ -21,12 +21,12 @@ public class CardRequestService {
     private String TOPIC;
 
     public void sendCardCreateMessage(CardRequest request) {
-        log.info("Sending card create message: {}", request);
+        log.info("Preparing to send card create message: {}", request);
 
         CardMessage message = cardMapper.toMessage(request);
+        log.debug("Mapped CardRequest to CardMessage: {}", message);
+
         kafkaProducer.sendTo(TOPIC, message);
-
-        log.info("Sent cardMessage to topic {}: {}", TOPIC, message);
+        log.info("Sent CardMessage to topic {} successfully: {}", TOPIC, message);
     }
-
 }

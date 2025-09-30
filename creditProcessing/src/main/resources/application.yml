@@ -47,6 +47,7 @@ t1:
       enable: true
     topic:
       client_credit_products: client_credit_products
+      payment-schedule: payment-schedule
     listener:
       poll-timeout: 1000
 

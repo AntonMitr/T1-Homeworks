@@ -24,6 +24,9 @@ public class AccountServiceImpl implements AccountService {
 
         return accountRepository.findByClientIdAndProductId(message.clientId(), message.productId())
                 .orElseGet(() -> {
+                    log.debug("Account not found, creating new one for clientId={}, productId={}",
+                            message.clientId(), message.productId());
+
                     Account newAccount = Account.builder()
                             .clientId(message.clientId())
                             .productId(message.productId())
@@ -36,6 +39,7 @@ public class AccountServiceImpl implements AccountService {
 
                     if (newAccount.getInterestRate() != null) {
                         newAccount.setIsRecalc(true);
+                        log.debug("Account will be recalculated due to interest rate set: {}", newAccount.getInterestRate());
                     }
 
                     Account savedAccount = accountRepository.save(newAccount);
@@ -50,8 +54,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository
                 .findByClientIdAndProductId(clientId, productId)
                 .orElseThrow(() -> {
-                    log.warn("Account not found for clientId={} and productId={}",
-                            clientId, productId);
+                    log.warn("Account not found for clientId={} and productId={}", clientId, productId);
                     return new IllegalArgumentException("Account not found");
                 });
     }

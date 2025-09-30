@@ -42,11 +42,12 @@ public class ClientServiceImpl implements ClientService {
         Client client = clientMapper.toEntity(request);
         User user = userMapper.toEntity(request);
         userRepository.save(user);
+        log.debug("Saved User entity: {}", user);
 
         client.setUser(user);
         clientRepository.save(client);
-
         log.info("Client registered successfully: {}", client);
+
         return clientMapper.toDto(client);
     }
 
@@ -55,8 +56,10 @@ public class ClientServiceImpl implements ClientService {
     public ClientResponse findById(Long id) {
         log.info("Fetching client by id={}", id);
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new ClientNotFoundException(id));
-
+                .orElseThrow(() -> {
+                    log.warn("Client not found: id={}", id);
+                    return new ClientNotFoundException(id);
+                });
         return clientMapper.toDto(client);
     }
 }

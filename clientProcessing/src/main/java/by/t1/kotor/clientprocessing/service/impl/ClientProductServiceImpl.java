@@ -33,20 +33,27 @@ public class ClientProductServiceImpl implements ClientProductService {
     private final ProductRepository productRepository;
     private final KafkaProducer<ClientProductMessage> productKafkaProducer;
     private final ClientProductMapper clientProductMapper;
+
     @Value("${t1.kafka.topic.client_products}")
     private String clientProductsTopic;
     @Value("${t1.kafka.topic.client_credit_products}")
     private String clientCreditProductsTopic;
-
 
     @Override
     public ClientProductResponse create(ClientProductRequest request) {
         log.info("Creating ClientProduct: {}", request);
 
         var client = clientRepository.findById(request.clientId())
-                .orElseThrow(() -> new ClientNotFoundException(request.clientId()));
+                .orElseThrow(() -> {
+                    log.warn("Client not found: id={}", request.clientId());
+                    return new ClientNotFoundException(request.clientId());
+                });
+
         var product = productRepository.findById(request.productId())
-                .orElseThrow(() -> new ProductNotFoundException(request.productId()));
+                .orElseThrow(() -> {
+                    log.warn("Product not found: id={}", request.productId());
+                    return new ProductNotFoundException(request.productId());
+                });
 
         ClientProduct clientProduct = clientProductMapper.toEntity(request);
         clientProduct.setClient(client);
@@ -55,7 +62,6 @@ public class ClientProductServiceImpl implements ClientProductService {
         ClientProduct saved = clientProductRepository.save(clientProduct);
         log.debug("Saved ClientProduct entity: {}", saved);
 
-        // отправка Kafka
         String topic = getTopicByProductKey(product.getKey().name());
         productKafkaProducer.sendTo(topic, clientProductMapper.toMessage(request));
         log.info("Sent ClientProductMessage to topic {}: {}", topic, request);
@@ -86,8 +92,8 @@ public class ClientProductServiceImpl implements ClientProductService {
 
         clientProductMapper.partialUpdate(clientProductUpdate, clientProduct);
         ClientProduct updated = clientProductRepository.save(clientProduct);
-
         log.debug("Updated ClientProduct entity: {}", updated);
+
         return clientProductMapper.toDto(updated);
     }
 
@@ -101,7 +107,10 @@ public class ClientProductServiceImpl implements ClientProductService {
 
     private ClientProduct getEntity(Long id) {
         return clientProductRepository.findById(id)
-                .orElseThrow(() -> new ClientProductNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.warn("ClientProduct not found: id={}", id);
+                    return new ClientProductNotFoundException(id);
+                });
     }
 
     private String getTopicByProductKey(String key) {
