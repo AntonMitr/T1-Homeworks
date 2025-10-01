@@ -28,7 +28,6 @@ public class KafkaProducer<T> {
 
     public void sendTo(String topic, T message) {
         try {
-            kafkaTemplate.send(topic, message).get();
             kafkaTemplate.send(
                     topic,
                     0,
