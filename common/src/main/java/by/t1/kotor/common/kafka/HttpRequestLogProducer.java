@@ -1,7 +1,6 @@
 package by.t1.kotor.common.kafka;
 
 import by.t1.kotor.common.model.dto.HttpRequestLogMessage;
-import by.t1.kotor.common.model.dto.LogErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

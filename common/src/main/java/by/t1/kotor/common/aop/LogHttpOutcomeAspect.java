@@ -55,7 +55,7 @@ public class LogHttpOutcomeAspect {
 
     private String getUriFromMethod(JoinPoint joinPoint) {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-            RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+        RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
         if (requestMapping != null && requestMapping.value().length > 0) {
             return requestMapping.value()[0];
         }

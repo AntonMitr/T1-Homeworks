@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "error_log")
-public class ErrorLogEntity extends BaseEntity{
+public class ErrorLogEntity extends BaseEntity {
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;

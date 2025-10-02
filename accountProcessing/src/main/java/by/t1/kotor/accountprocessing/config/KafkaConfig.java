@@ -1,22 +1,17 @@
 package by.t1.kotor.accountprocessing.config;
 
 import by.t1.kotor.accountprocessing.model.dto.CardRequest;
-import by.t1.kotor.common.kafka.LogErrorProducer;
 import by.t1.kotor.common.model.dto.ClientPaymentMessage;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
-import by.t1.kotor.common.model.dto.LogErrorMessage;
 import by.t1.kotor.common.model.dto.TransactionMessage;
-import by.t1.kotor.common.service.ErrorLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -28,7 +23,6 @@ import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.stereotype.Component;
 import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.web.client.RestTemplate;
 
@@ -137,6 +131,7 @@ public class KafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, ClientPaymentMessage> paymentScheduleFactory() {
         return buildFactory(ClientPaymentMessage.class);
     }
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

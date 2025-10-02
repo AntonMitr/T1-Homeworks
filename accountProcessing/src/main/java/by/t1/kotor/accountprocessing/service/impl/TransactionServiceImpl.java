@@ -2,11 +2,9 @@ package by.t1.kotor.accountprocessing.service.impl;
 
 import by.t1.kotor.accountprocessing.model.Account;
 import by.t1.kotor.accountprocessing.model.Card;
-
 import by.t1.kotor.accountprocessing.model.Payment;
 import by.t1.kotor.accountprocessing.model.Transaction;
 import by.t1.kotor.accountprocessing.model.enums.AccountStatusEnum;
-import by.t1.kotor.accountprocessing.model.enums.PaymentTypeEnum;
 import by.t1.kotor.accountprocessing.model.enums.TransactionStatusEnum;
 import by.t1.kotor.accountprocessing.model.enums.TransactionTypeEnum;
 import by.t1.kotor.accountprocessing.repository.AccountRepository;
@@ -88,7 +86,7 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("Auto-deduction check completed for account {}", account.getId());
     }
 
-    private void saveTransaction(TransactionMessage message, TransactionStatusEnum status, Account account, Card card){
+    private void saveTransaction(TransactionMessage message, TransactionStatusEnum status, Account account, Card card) {
         Transaction tx = Transaction.builder()
                 .account(account)
                 .card(card)

@@ -1,6 +1,5 @@
 package by.t1.kotor.creditprocessing.service.impl;
 
-import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
 import by.t1.kotor.creditprocessing.mapper.ProductMapper;
 import by.t1.kotor.creditprocessing.model.PaymentRegistry;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
