@@ -9,3 +9,5 @@ databaseChangeLog:
       file: classpath:db/changeset/004-create-transaction-table.yml
   - include:
       file: classpath:db/changeset/005-add-expired-flag-column-to-payment.yml
+  - include:
+      file: classpath:db/changeset/006-create-error-log-table.yml

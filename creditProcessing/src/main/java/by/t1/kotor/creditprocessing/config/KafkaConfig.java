@@ -62,13 +62,7 @@ public class KafkaConfig {
     }
 
     private CommonErrorHandler errorHandler() {
-        DefaultErrorHandler handler =
-                new DefaultErrorHandler(new FixedBackOff(1000, 3));
-        handler.addNotRetryableExceptions(IllegalStateException.class);
-        handler.setRetryListeners((record, ex, deliveryAttempt) -> {
-            log.error(" RetryListeners message = {}, offset = {} deliveryAttempt = {}", ex.getMessage(), record.offset(), deliveryAttempt);
-        });
-        return handler;
+        return new DefaultErrorHandler(new FixedBackOff(0L, 0L));
     }
 
     private <T> ConcurrentKafkaListenerContainerFactory<String, T> buildFactory(Class<T> targetClass) {

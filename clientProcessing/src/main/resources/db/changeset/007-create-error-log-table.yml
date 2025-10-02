@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-error-log-table
+      author: Kotor
+      changes:
+        - createTable:
+            tableName: error_log
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: method_signature
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: exception_message
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: stack_trace
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: method_args
+                  type: text
+                  constraints:
+                    nullable: true

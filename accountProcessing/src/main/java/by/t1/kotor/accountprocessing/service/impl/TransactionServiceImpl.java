@@ -15,6 +15,7 @@ import by.t1.kotor.accountprocessing.repository.TransactionRepository;
 import by.t1.kotor.accountprocessing.service.AccountService;
 import by.t1.kotor.accountprocessing.service.CardService;
 import by.t1.kotor.accountprocessing.service.TransactionService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.TransactionMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final Duration T = Duration.ofMinutes(1);
 
     @Override
+    @LogDatasourceError
     public void create(TransactionMessage msg) {
         log.info("Received transaction: clientId={}, productId={}, type={}, amount={}",
                 msg.clientId(), msg.productId(), msg.transactionType(), msg.amount());

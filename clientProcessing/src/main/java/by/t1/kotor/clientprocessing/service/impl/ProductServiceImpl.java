@@ -7,6 +7,7 @@ import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ProductService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
+    @LogDatasourceError
     public ProductResponse create(ProductRequest request) {
         log.info("Creating product: {}", request);
         Product product = productMapper.toEntity(request);
@@ -34,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
+    @LogDatasourceError
     public Page<ProductResponse> getAll(int page, int size) {
         log.info("Fetching all products, page={}, size={}", page, size);
         return productRepository.findAll(PageRequest.of(page, size))
@@ -42,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
+    @LogDatasourceError
     public ProductResponse getById(Long id) {
         log.info("Fetching product by id={}", id);
         Product product = getProductById(id);
@@ -49,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @LogDatasourceError
     public ProductResponse update(Long id, ProductRequest request) {
         log.info("Updating product id={}, request={}", id, request);
         Product product = getProductById(id);
@@ -61,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @LogDatasourceError
     public void delete(Long id) {
         log.info("Deleting product id={}", id);
         if (!productRepository.existsById(id)) {

@@ -4,6 +4,7 @@ import by.t1.kotor.accountprocessing.model.Account;
 import by.t1.kotor.accountprocessing.model.enums.AccountStatusEnum;
 import by.t1.kotor.accountprocessing.repository.AccountRepository;
 import by.t1.kotor.accountprocessing.service.AccountService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
+    @LogDatasourceError
     public Account createAccount(ClientProductMessage message) {
         log.debug("Received message to create account: clientId={}, productId={}",
                 message.clientId(), message.productId());

@@ -1,5 +1,8 @@
 package by.t1.kotor.clientprocessing.config;
 
+import by.t1.kotor.common.kafka.LogErrorProducer;
+import by.t1.kotor.common.model.dto.LogErrorMessage;
+import by.t1.kotor.common.service.ErrorLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -10,7 +13,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.CommonErrorHandler;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +41,6 @@ public class KafkaConfig<T> {
     }
 
     @Bean
-    @Primary
     public KafkaTemplate<String, Object> objectKafkaTemplate() {
         return new KafkaTemplate<>(generalProducerFactory());
     }

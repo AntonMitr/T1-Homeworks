@@ -1,5 +1,6 @@
 package by.t1.kotor.creditprocessing.service.impl;
 
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
 import by.t1.kotor.creditprocessing.kafka.KafkaProducer;
 import by.t1.kotor.creditprocessing.model.dto.ClientInfo;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -25,6 +27,7 @@ public class CreditDecisionService {
     @Value("${t1.credit.max-total-debt}")
     private BigDecimal limitTotalDebt;
 
+    @LogDatasourceError
     public void decideCredit(ClientProductMessage message) {
         log.debug("Start decideCredit for clientId={}, productId={}, creditAmount={}",
                 message.clientId(), message.productId(), message.creditAmount());

@@ -12,6 +12,7 @@ import by.t1.kotor.clientprocessing.repository.BlacklistRegistryRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.UserRepository;
 import by.t1.kotor.clientprocessing.service.ClientService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class ClientServiceImpl implements ClientService {
     private final UserMapper userMapper;
 
     @Override
+    @LogDatasourceError
     public ClientResponse registerClient(ClientRegistrationRequest request) {
         log.info("Registering new client: {}", request);
 
@@ -52,6 +54,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @LogDatasourceError
     @Transactional(readOnly = true)
     public ClientResponse findById(Long id) {
         log.info("Fetching client by id={}", id);

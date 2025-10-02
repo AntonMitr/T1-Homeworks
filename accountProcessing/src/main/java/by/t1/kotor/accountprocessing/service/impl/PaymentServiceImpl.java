@@ -6,6 +6,7 @@ import by.t1.kotor.accountprocessing.model.enums.PaymentTypeEnum;
 import by.t1.kotor.accountprocessing.repository.AccountRepository;
 import by.t1.kotor.accountprocessing.repository.PaymentRepository;
 import by.t1.kotor.accountprocessing.service.PaymentService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.PaymentRegistryMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final AccountRepository accountRepository;
     private final PaymentRepository paymentRepository;
 
+    @LogDatasourceError
     public void processPayment(PaymentRegistryMessage message) {
         log.debug("Processing payment message: {}", message);
 
@@ -68,6 +70,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    @LogDatasourceError
     public void createPaymentSchedule(PaymentRegistryMessage message) {
         Account account = accountRepository.findById(message.accountId())
                 .orElseThrow(() -> new RuntimeException("Account not found: " + message.accountId()));

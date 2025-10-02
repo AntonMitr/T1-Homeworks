@@ -1,21 +1,33 @@
 package by.t1.kotor.accountprocessing.config;
 
 import by.t1.kotor.accountprocessing.model.dto.CardRequest;
+import by.t1.kotor.common.kafka.LogErrorProducer;
 import by.t1.kotor.common.model.dto.ClientPaymentMessage;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
+import by.t1.kotor.common.model.dto.LogErrorMessage;
 import by.t1.kotor.common.model.dto.TransactionMessage;
+import by.t1.kotor.common.service.ErrorLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.CommonErrorHandler;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
+@Configuration
 public class KafkaConfig {
 
     @Value("${t1.kafka.consumer.group-id}")
@@ -58,13 +70,7 @@ public class KafkaConfig {
     }
 
     private CommonErrorHandler errorHandler() {
-        DefaultErrorHandler handler =
-                new DefaultErrorHandler(new FixedBackOff(1000, 3));
-        handler.addNotRetryableExceptions(IllegalStateException.class);
-        handler.setRetryListeners((record, ex, deliveryAttempt) -> {
-            log.error(" RetryListeners message = {}, offset = {} deliveryAttempt = {}", ex.getMessage(), record.offset(), deliveryAttempt);
-        });
-        return handler;
+        return new DefaultErrorHandler(new FixedBackOff(0L, 0L));
     }
 
     private <T> ConcurrentKafkaListenerContainerFactory<String, T> buildFactory(Class<T> targetClass) {
@@ -88,6 +94,23 @@ public class KafkaConfig {
         factory.setCommonErrorHandler(errorHandler());
 
         return factory;
+    }
+
+    @Bean
+    public ProducerFactory<String, Object> generalProducerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.RETRIES_CONFIG, 3);
+        props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
+        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+        return new DefaultKafkaProducerFactory<>(props);
+    }
+
+    @Bean
+    public KafkaTemplate<String, Object> objectKafkaTemplate() {
+        return new KafkaTemplate<>(generalProducerFactory());
     }
 
     @Bean("cardKafkaListenerContainerFactory")

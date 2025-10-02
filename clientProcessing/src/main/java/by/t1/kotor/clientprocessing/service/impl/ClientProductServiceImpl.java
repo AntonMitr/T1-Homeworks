@@ -13,6 +13,7 @@ import by.t1.kotor.clientprocessing.repository.ClientProductRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ClientProductService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,7 @@ public class ClientProductServiceImpl implements ClientProductService {
     private String clientCreditProductsTopic;
 
     @Override
+    @LogDatasourceError
     public ClientProductResponse create(ClientProductRequest request) {
         log.info("Creating ClientProduct: {}", request);
 
@@ -71,6 +73,7 @@ public class ClientProductServiceImpl implements ClientProductService {
 
     @Override
     @Transactional(readOnly = true)
+    @LogDatasourceError
     public Page<ClientProductResponse> getAll(int page, int size) {
         log.info("Fetching all ClientProducts, page={}, size={}", page, size);
         return clientProductRepository.findAll(PageRequest.of(page, size))
@@ -79,6 +82,7 @@ public class ClientProductServiceImpl implements ClientProductService {
 
     @Override
     @Transactional(readOnly = true)
+    @LogDatasourceError
     public ClientProductResponse getById(Long id) {
         log.info("Fetching ClientProduct by id={}", id);
         ClientProduct clientProduct = getEntity(id);
@@ -86,6 +90,7 @@ public class ClientProductServiceImpl implements ClientProductService {
     }
 
     @Override
+    @LogDatasourceError
     public ClientProductResponse update(Long id, ClientProductUpdate clientProductUpdate) {
         log.info("Updating ClientProduct id={}, update={}", id, clientProductUpdate);
         ClientProduct clientProduct = getEntity(id);
@@ -98,6 +103,7 @@ public class ClientProductServiceImpl implements ClientProductService {
     }
 
     @Override
+    @LogDatasourceError
     public void delete(Long id) {
         log.info("Deleting ClientProduct id={}", id);
         ClientProduct clientProduct = getEntity(id);

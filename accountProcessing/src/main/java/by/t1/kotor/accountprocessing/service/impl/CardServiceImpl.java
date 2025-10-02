@@ -9,6 +9,7 @@ import by.t1.kotor.accountprocessing.repository.AccountRepository;
 import by.t1.kotor.accountprocessing.repository.CardRepository;
 import by.t1.kotor.accountprocessing.service.AccountService;
 import by.t1.kotor.accountprocessing.service.CardService;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.CardMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,7 @@ public class CardServiceImpl implements CardService {
     @Value("${t1.kafka.services.client-processing.url}")
     private String baseUrl;
 
+    @LogDatasourceError
     public void create(CardMessage message) {
         log.debug("Received message to create card: clientId={}, productId={}, cardType={}",
                 message.clientId(), message.productId(), message.cardType());

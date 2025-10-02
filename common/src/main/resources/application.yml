@@ -1,3 +1,1 @@
-kafka:
-  topic:
-    service_logs: service_logs
+

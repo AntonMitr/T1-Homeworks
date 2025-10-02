@@ -51,6 +51,7 @@ t1:
       client_transactions: client_transactions
       client-payments: client-payments
       payment-schedule: payment-schedule
+      service_logs: service_logs
     listener:
       poll-timeout: 1000
 

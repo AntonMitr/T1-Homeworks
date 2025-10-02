@@ -1,5 +1,6 @@
 package by.t1.kotor.creditprocessing.service.impl;
 
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
 import by.t1.kotor.creditprocessing.mapper.ProductMapper;
 import by.t1.kotor.creditprocessing.model.PaymentRegistry;

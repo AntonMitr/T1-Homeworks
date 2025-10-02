@@ -3,6 +3,8 @@ package by.t1.kotor.clientprocessing.controller;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import by.t1.kotor.clientprocessing.service.ProductService;
+import by.t1.kotor.common.aop.annotation.HttpIncomeRequestLog;
+import by.t1.kotor.common.aop.annotation.HttpOutcomeRequestLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<ProductResponse> createProduct(
             @RequestBody ProductRequest request
     ) {
@@ -25,6 +29,8 @@ public class ProductController {
     }
 
     @GetMapping
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<Page<ProductResponse>> getAllProducts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
@@ -33,17 +39,23 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<ProductResponse> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(productService.getById(id));
     }
 
     @PutMapping("/{id}")
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable("id") Long id,
                                                          @RequestBody ProductRequest request) {
         return ResponseEntity.ok(productService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
         productService.delete(id);
         return ResponseEntity.noContent().build();

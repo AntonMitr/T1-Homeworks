@@ -3,6 +3,8 @@ package by.t1.kotor.clientprocessing.controller;
 import by.t1.kotor.clientprocessing.model.dto.client.ClientRegistrationRequest;
 import by.t1.kotor.clientprocessing.model.dto.client.ClientResponse;
 import by.t1.kotor.clientprocessing.service.ClientService;
+import by.t1.kotor.common.aop.annotation.HttpIncomeRequestLog;
+import by.t1.kotor.common.aop.annotation.HttpOutcomeRequestLog;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("/register")
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<ClientResponse> register(
             @Valid @RequestBody ClientRegistrationRequest request
     ) {
@@ -24,6 +28,8 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
+    @HttpOutcomeRequestLog
+    @HttpIncomeRequestLog
     public ResponseEntity<ClientResponse> getById(
             @PathVariable("id") Long id
     ) {

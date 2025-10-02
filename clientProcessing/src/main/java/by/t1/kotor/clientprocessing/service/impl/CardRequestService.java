@@ -3,6 +3,7 @@ package by.t1.kotor.clientprocessing.service.impl;
 import by.t1.kotor.clientprocessing.kafka.KafkaProducer;
 import by.t1.kotor.clientprocessing.mapper.CardMapper;
 import by.t1.kotor.clientprocessing.model.dto.card.CardRequest;
+import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.common.model.dto.CardMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class CardRequestService {
     @Value("${t1.kafka.topic.client_cards}")
     private String TOPIC;
 
+    @LogDatasourceError
     public void sendCardCreateMessage(CardRequest request) {
         log.info("Preparing to send card create message: {}", request);
 

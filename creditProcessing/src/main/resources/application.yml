@@ -48,6 +48,7 @@ t1:
     topic:
       client_credit_products: client_credit_products
       payment-schedule: payment-schedule
+      service_logs: service_logs
     listener:
       poll-timeout: 1000
 

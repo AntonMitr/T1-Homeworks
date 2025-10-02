@@ -42,6 +42,7 @@ t1:
       client_products: client_products
       client_credit_products: client_credit_products
       client_transactions:  client_transactions
+      service_logs: service_logs
     listener:
       poll-timeout: 1000
 

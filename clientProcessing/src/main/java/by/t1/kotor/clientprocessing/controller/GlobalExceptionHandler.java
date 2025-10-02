@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(ClientNotFoundException.class)
     public ResponseEntity<String> handleClientNotFound(ClientNotFoundException ex) {
         log.error("Client not found: {}", ex.getMessage());

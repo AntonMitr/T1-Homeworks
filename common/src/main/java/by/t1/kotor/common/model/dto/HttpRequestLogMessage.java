@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Builder
-public record LogErrorMessage(
+public record HttpRequestLogMessage(
         LocalDateTime timestamp,
         String methodSignature,
-        String stackTrace,
-        String exceptionMessage,
-        Map<String, Object> methodArgs
+        String uri,
+        Map<String, Object> methodArgs,
+        Object httpBody
 ) {
 }

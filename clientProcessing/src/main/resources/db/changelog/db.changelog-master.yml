@@ -11,3 +11,5 @@ databaseChangeLog:
       file: classpath:db/changeset/005-create-blacklist-registry-table.yml
   - include:
       file: classpath:db/changeset/006-insert-sample-data.yml
+  - include:
+      file: classpath:db/changeset/007-create-error-log-table.yml
