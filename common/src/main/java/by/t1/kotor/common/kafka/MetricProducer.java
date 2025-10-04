@@ -1,6 +1,7 @@
 package by.t1.kotor.common.kafka;
 
 import by.t1.kotor.common.model.dto.HttpRequestLogMessage;
+import by.t1.kotor.common.model.dto.MetricLogMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class HttpRequestLogProducer {
+public class MetricProducer {
     private final KafkaTemplate<String, Object> errortKafkaTemplate;
 
     @Value("${t1.kafka.topic.service_logs}")
@@ -21,20 +22,18 @@ public class HttpRequestLogProducer {
     @Value("${spring.application.name}")
     private String KEY;
 
-    public void sendToTopic(HttpRequestLogMessage logMessage) {
+    public void sendToTopic(MetricLogMessage logMessage) {
         try {
-            Message<HttpRequestLogMessage> message = MessageBuilder
+            Message<MetricLogMessage> message = MessageBuilder
                     .withPayload(logMessage)
                     .setHeader(KafkaHeaders.TOPIC, TOPIC)
                     .setHeader(KafkaHeaders.KEY, KEY)
-                    .setHeader("type", "INFO")
+                    .setHeader("type", "WARNING")
                     .build();
 
-            errortKafkaTemplate.send(message).get();
+            errortKafkaTemplate.send(message);
         } catch (Exception e) {
             log.error("Error sending message", e);
-        } finally {
-            errortKafkaTemplate.flush();
         }
     }
 }

@@ -25,6 +25,9 @@ logging:
     org.hibernate.SQL: INFO
     by.t1.kotor.accountprocessing: DEBUG
 
+metrics:
+  execution-threshold-ms: 5000
+
 t1:
   scan-path: by.t1.kotor.accountprocessing
   kafka:

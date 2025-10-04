@@ -25,6 +25,9 @@ logging:
     by.t1.kotor.clientprocessing: DEBUG
     root: DEBUG
 
+metrics:
+  execution-threshold-ms: 5000
+
 t1:
   scan-path: by.t1.kotor.clientprocessing
   kafka:
