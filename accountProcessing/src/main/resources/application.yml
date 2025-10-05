@@ -25,6 +25,9 @@ logging:
     org.hibernate.SQL: INFO
     by.t1.kotor.accountprocessing: DEBUG
 
+cache:
+  ttl-ms: 60000
+
 metrics:
   execution-threshold-ms: 5000
 

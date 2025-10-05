@@ -24,7 +24,7 @@ public class MetricAspect {
 
     private final MetricProducer metricProducer;
 
-    @Value("${metrics.execution-threshold-ms}}")
+    @Value("${metrics.execution-threshold-ms}")
     private long executionThresholdMs;
 
     @Around("@annotation(by.t1.kotor.common.aop.annotation.Metric)")

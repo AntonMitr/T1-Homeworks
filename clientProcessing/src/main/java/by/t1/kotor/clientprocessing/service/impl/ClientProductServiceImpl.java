@@ -14,6 +14,7 @@ import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ClientProductService;
 import by.t1.kotor.common.aop.annotation.LogDatasourceError;
+import by.t1.kotor.common.aop.annotation.Metric;
 import by.t1.kotor.common.model.dto.ClientProductMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ public class ClientProductServiceImpl implements ClientProductService {
 
     @Override
     @LogDatasourceError
+    @Metric
     public ClientProductResponse create(ClientProductRequest request) {
         log.info("Creating ClientProduct: {}", request);
 

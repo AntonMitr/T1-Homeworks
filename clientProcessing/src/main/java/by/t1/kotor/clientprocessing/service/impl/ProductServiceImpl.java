@@ -7,6 +7,7 @@ import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ProductService;
+import by.t1.kotor.common.aop.annotation.Cached;
 import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = true)
     @LogDatasourceError
+    @Cached
     public ProductResponse getById(Long id) {
         log.info("Fetching product by id={}", id);
         Product product = getProductById(id);
