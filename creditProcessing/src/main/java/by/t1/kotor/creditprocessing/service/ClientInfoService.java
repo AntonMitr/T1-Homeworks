@@ -1,7 +1,7 @@
 package by.t1.kotor.creditprocessing.service;
 
-import by.t1.kotor.common.aop.annotation.LogDatasourceError;
 import by.t1.kotor.creditprocessing.model.dto.ClientInfo;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

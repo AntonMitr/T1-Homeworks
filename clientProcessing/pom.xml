@@ -29,6 +29,12 @@
         </dependency>
 
         <dependency>
+            <groupId>by.t1.kotor</groupId>
+            <artifactId>crosscutting-starter</artifactId>
+            <version>0.0.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>

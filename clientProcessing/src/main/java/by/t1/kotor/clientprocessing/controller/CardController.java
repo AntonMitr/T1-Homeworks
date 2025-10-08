@@ -2,11 +2,12 @@ package by.t1.kotor.clientprocessing.controller;
 
 import by.t1.kotor.clientprocessing.model.dto.card.CardRequest;
 import by.t1.kotor.clientprocessing.service.impl.CardRequestService;
-import by.t1.kotor.common.aop.annotation.HttpIncomeRequestLog;
-import by.t1.kotor.common.aop.annotation.HttpOutcomeRequestLog;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpIncomeRequestLog;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpOutcomeRequestLog;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

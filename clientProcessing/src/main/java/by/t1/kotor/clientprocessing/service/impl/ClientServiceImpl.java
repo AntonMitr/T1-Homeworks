@@ -12,7 +12,7 @@ import by.t1.kotor.clientprocessing.repository.BlacklistRegistryRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.UserRepository;
 import by.t1.kotor.clientprocessing.service.ClientService;
-import by.t1.kotor.common.aop.annotation.LogDatasourceError;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

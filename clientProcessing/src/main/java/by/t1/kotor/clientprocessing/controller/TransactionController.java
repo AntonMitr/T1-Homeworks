@@ -2,8 +2,8 @@ package by.t1.kotor.clientprocessing.controller;
 
 import by.t1.kotor.clientprocessing.model.dto.transaction.TransactionRequest;
 import by.t1.kotor.clientprocessing.service.impl.TransactionRequestService;
-import by.t1.kotor.common.aop.annotation.HttpIncomeRequestLog;
-import by.t1.kotor.common.aop.annotation.HttpOutcomeRequestLog;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpIncomeRequestLog;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpOutcomeRequestLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

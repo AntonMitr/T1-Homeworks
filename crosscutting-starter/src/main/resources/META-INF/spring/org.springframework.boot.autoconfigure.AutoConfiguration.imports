@@ -1,0 +1,4 @@
+by.t1.kotor.crosscuttingstarter.config.CacheAutoConfiguration
+by.t1.kotor.crosscuttingstarter.config.LogErrorAutoConfiguration
+by.t1.kotor.crosscuttingstarter.config.HttpLoggingAutoConfiguration
+by.t1.kotor.crosscuttingstarter.config.MetricAutoConfiguration

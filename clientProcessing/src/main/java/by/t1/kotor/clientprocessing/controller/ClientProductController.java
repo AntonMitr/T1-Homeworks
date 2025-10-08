@@ -4,8 +4,8 @@ import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductRequest
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductResponse;
 import by.t1.kotor.clientprocessing.model.dto.clientProduct.ClientProductUpdate;
 import by.t1.kotor.clientprocessing.service.ClientProductService;
-import by.t1.kotor.common.aop.annotation.HttpIncomeRequestLog;
-import by.t1.kotor.common.aop.annotation.HttpOutcomeRequestLog;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpIncomeRequestLog;
+import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpOutcomeRequestLog;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

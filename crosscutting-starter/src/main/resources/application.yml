@@ -1,0 +1,17 @@
+t1:
+    kafka:
+        service-name: my-service
+        bootstrap-servers: localhost:9092
+        topic:
+            service_logs: service-logs
+        enabled: true
+
+        metric:
+            enabled: true
+            serviceName: my-service
+            topic: metric_topic
+            bootstrapServers: localhost:9092
+            executionThresholdMs: 500
+
+cache:
+    ttl-ms: 120000

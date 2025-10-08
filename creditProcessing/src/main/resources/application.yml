@@ -30,30 +30,40 @@ metrics:
 
 t1:
   scan-path: by.t1.kotor.creditprocessing
+
   credit:
-    max-total-debt: 1000000  # лимит N
+    max-total-debt: 1000000
+
   services:
     client-processing:
       url: http://client-processing:8081
+
     account-processing:
       url: http://account-processing:8082
+
   kafka:
     bootstrap:
       server: ${KAFKA_SERVER:broker_t1:29092}
+
     consumer:
       group-id: t1-creditprocessing
       product-id: product-id
       max.poll.records: 10
       session-timeout: 10000
       heartbeat.interval: 3000
+
     producer:
       enable: true
+
     topic:
       client_credit_products: client_credit_products
       payment-schedule: payment-schedule
       service_logs: service_logs
+
     listener:
       poll-timeout: 1000
+
+    service-name: "${spring.application.name}"
 
 server:
   port: 8083
