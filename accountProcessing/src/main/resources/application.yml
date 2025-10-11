@@ -66,5 +66,10 @@ t1:
 
     service-name: "${spring.application.name}"
 
+security:
+  token: ef86508c1b69812bf0de65828b008aafbb7f4e626666225a
+  expiration: 86400000
+
+
 server:
   port: 8082

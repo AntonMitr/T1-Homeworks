@@ -12,6 +12,7 @@ import by.t1.kotor.clientprocessing.repository.BlacklistRegistryRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
 import by.t1.kotor.clientprocessing.repository.UserRepository;
 import by.t1.kotor.clientprocessing.service.ClientService;
+import by.t1.kotor.clientprocessing.service.UserService;
 import by.t1.kotor.crosscuttingstarter.aop.annotation.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +27,8 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final BlacklistRegistryRepository blacklistRegistryRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ClientMapper clientMapper;
-    private final UserMapper userMapper;
 
     @Override
     @LogDatasourceError
@@ -42,8 +42,7 @@ public class ClientServiceImpl implements ClientService {
         }
 
         Client client = clientMapper.toEntity(request);
-        User user = userMapper.toEntity(request);
-        userRepository.save(user);
+        User user = userService.create(request);
         log.debug("Saved User entity: {}", user);
 
         client.setUser(user);
