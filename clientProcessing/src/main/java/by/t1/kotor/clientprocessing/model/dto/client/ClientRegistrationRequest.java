@@ -3,6 +3,7 @@ package by.t1.kotor.clientprocessing.model.dto.client;
 import by.t1.kotor.clientprocessing.model.enums.DocumentTypeEnum;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 public record ClientRegistrationRequest(
         String firstName,
@@ -15,6 +16,7 @@ public record ClientRegistrationRequest(
         String documentSuffix,
         String login,
         String email,
-        String password
+        String password,
+        Set<String> roles
 ) {
 }

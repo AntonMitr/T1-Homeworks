@@ -13,3 +13,9 @@ databaseChangeLog:
 #      file: classpath:db/changeset/006-insert-sample-data.yml
   - include:
       file: classpath:db/changeset/007-create-error-log-table.yml
+  - include:
+      file: classpath:db/changeset/008-create-role-table.yml
+  - include:
+      file: classpath:db/changeset/009-create-user-roles-table.yml
+  - include:
+      file: classpath:db/changeset/010-insert-roles-to-role-table.yml

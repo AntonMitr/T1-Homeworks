@@ -14,8 +14,8 @@ public class CustomUserServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).map(UserDetailsImpl::new)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+    public UserDetailsImpl loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmailWithRoles(email).map(UserDetailsImpl::new)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }

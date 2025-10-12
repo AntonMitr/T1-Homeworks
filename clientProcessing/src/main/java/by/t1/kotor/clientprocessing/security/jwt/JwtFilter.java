@@ -31,13 +31,21 @@ public class JwtFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = getTokenFromRequest(request);
         if (token != null && jwtService.validateJwtToken(token)) {
-            setUserDetailsImplToSecurityContextHolder(token);
+            UserDetailsImpl userDetailsImpl = setUserDetailsImplToSecurityContextHolder(token);
+
+            boolean isBlocked = userDetailsImpl.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_BLOCKED_CLIENT"));
+            if (isBlocked) {
+                log.warn("Blocked client attempted access: {}", userDetailsImpl.getUsername());
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Your account is blocked");
+                return;
+            }
         }
         filterChain.doFilter(request, response);
 
     }
 
-    private void setUserDetailsImplToSecurityContextHolder(String token) {
+    private UserDetailsImpl setUserDetailsImplToSecurityContextHolder(String token) {
         String email = jwtService.getEmailFromToken(token);
         log.info("email from token {}", email);
 
@@ -47,6 +55,8 @@ public class JwtFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetailsImpl,
                 null, userDetailsImpl.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return userDetailsImpl;
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {

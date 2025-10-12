@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class ProductController {
     @PostMapping
     @HttpOutcomeRequestLog
     @HttpIncomeRequestLog
+    @PreAuthorize("hasRole('MASTER')")
     public ResponseEntity<ProductResponse> createProduct(
             @RequestBody ProductRequest request
     ) {
@@ -48,6 +50,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @HttpOutcomeRequestLog
     @HttpIncomeRequestLog
+    @PreAuthorize("hasRole({'MASTER', 'GRAND_EMPLOYEE'})")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable("id") Long id,
                                                          @RequestBody ProductRequest request) {
         return ResponseEntity.ok(productService.update(id, request));
@@ -56,6 +59,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @HttpOutcomeRequestLog
     @HttpIncomeRequestLog
+    @PreAuthorize("hasRole({'MASTER', 'GRAND_EMPLOYEE'})")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
         productService.delete(id);
         return ResponseEntity.noContent().build();
