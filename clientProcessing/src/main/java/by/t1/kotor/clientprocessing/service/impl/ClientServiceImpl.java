@@ -3,7 +3,6 @@ package by.t1.kotor.clientprocessing.service.impl;
 import by.t1.kotor.clientprocessing.exception.BlacklistedClientException;
 import by.t1.kotor.clientprocessing.exception.ClientNotFoundException;
 import by.t1.kotor.clientprocessing.mapper.ClientMapper;
-import by.t1.kotor.clientprocessing.mapper.UserMapper;
 import by.t1.kotor.clientprocessing.model.Client;
 import by.t1.kotor.clientprocessing.model.Role;
 import by.t1.kotor.clientprocessing.model.User;
@@ -12,7 +11,6 @@ import by.t1.kotor.clientprocessing.model.dto.client.ClientResponse;
 import by.t1.kotor.clientprocessing.model.enums.RoleEnum;
 import by.t1.kotor.clientprocessing.repository.BlacklistRegistryRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
-import by.t1.kotor.clientprocessing.repository.UserRepository;
 import by.t1.kotor.clientprocessing.service.ClientService;
 import by.t1.kotor.clientprocessing.service.RoleRepository;
 import by.t1.kotor.clientprocessing.service.UserService;
@@ -22,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Service
@@ -40,7 +38,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @LogDatasourceError
-    public ClientResponse registerClient(ClientRegistrationRequest request, Set<Role> roles) {
+    public ClientResponse registerClient(ClientRegistrationRequest request) {
         log.info("Registering new client: {}", request);
 
         if (blacklistRegistryRepository.existsBlacklistRegistriesByDocumentTypeAndDocumentId(
@@ -49,15 +47,41 @@ public class ClientServiceImpl implements ClientService {
             throw new BlacklistedClientException(request.documentId());
         }
 
+        Set<Role> roles = resolveRoles(request.roles());
+        log.debug("Resolved roles for client: {}", roles);
+
         Client client = clientMapper.toEntity(request);
         User user = userService.create(request, roles);
-        log.debug("Saved User entity: {}", user);
-
         client.setUser(user);
+
         Client savedClient = clientRepository.save(client);
         log.info("Client registered successfully: {}", savedClient);
 
-        return clientMapper.toDto(client);
+        return clientMapper.toDto(savedClient);
+    }
+
+    private Set<Role> resolveRoles(Set<String> strRoles) {
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null || strRoles.isEmpty()) {
+            Role defaultRole = roleRepository.findByName(RoleEnum.CURRENT_CLIENT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(defaultRole);
+            return roles;
+        }
+
+        for (String role : strRoles) {
+            switch (role.toLowerCase(Locale.ROOT)) {
+                case "master" -> roles.add(roleRepository.findByName(RoleEnum.MASTER)
+                        .orElseThrow(() -> new RuntimeException("Role MASTER not found")));
+                case "grand_employee" -> roles.add(roleRepository.findByName(RoleEnum.GRAND_EMPLOYEE)
+                        .orElseThrow(() -> new RuntimeException("Role GRAND_EMPLOYEE not found")));
+                default -> roles.add(roleRepository.findByName(RoleEnum.CURRENT_CLIENT)
+                        .orElseThrow(() -> new RuntimeException("Role CURRENT_CLIENT not found")));
+            }
+        }
+
+        return roles;
     }
 
     @Override
