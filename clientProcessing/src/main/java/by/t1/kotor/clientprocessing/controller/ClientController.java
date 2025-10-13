@@ -31,38 +31,7 @@ public class ClientController {
     public ResponseEntity<ClientResponse> register(
             @Valid @RequestBody ClientRegistrationRequest request
     ) {
-        Set<String> strRoles = request.roles();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(RoleEnum.CURRENT_CLIENT)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role.toLowerCase(Locale.ROOT)) {
-                    case "master":
-                        Role masterRole = roleRepository.findByName(RoleEnum.MASTER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(masterRole);
-
-                        break;
-                    case "grand_employee":
-                        Role grandEmployeeRole = roleRepository.findByName(RoleEnum.GRAND_EMPLOYEE)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(grandEmployeeRole);
-
-                        break;
-                    default:
-                        Role clientRole = roleRepository.findByName(RoleEnum.CURRENT_CLIENT)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(clientRole);
-                }
-            });
-        }
-
-
-        ClientResponse response = clientService.registerClient(request, roles);
+        ClientResponse response = clientService.registerClient(request);
         return ResponseEntity.ok(response);
     }
 
