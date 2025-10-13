@@ -24,6 +24,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>by.t1.kotor</groupId>
             <artifactId>crosscutting-starter</artifactId>
             <version>0.0.6</version>

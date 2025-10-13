@@ -4,7 +4,9 @@ package by.t1.kotor.clientprocessing.model.dto.clientProduct;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 
+@Builder
 public record ClientProductRequest(
         @NotNull(message = "clientId cannot be null")
         Long clientId,

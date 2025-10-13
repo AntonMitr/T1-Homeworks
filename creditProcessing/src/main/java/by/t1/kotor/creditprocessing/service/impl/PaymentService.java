@@ -5,6 +5,7 @@ import by.t1.kotor.creditprocessing.kafka.KafkaProducer;
 import by.t1.kotor.creditprocessing.mapper.PaymentMapper;
 import by.t1.kotor.creditprocessing.model.PaymentRegistry;
 import by.t1.kotor.creditprocessing.model.ProductRegistry;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Value("${t1.kafka.topic.payment-schedule}")
+    @Getter
     private String TOPIC;
 
     public List<PaymentRegistry> generateSchedule(ProductRegistry productRegistry,

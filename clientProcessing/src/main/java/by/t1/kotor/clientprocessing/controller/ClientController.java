@@ -42,21 +42,21 @@ public class ClientController {
             strRoles.forEach(role -> {
                 switch (role.toLowerCase(Locale.ROOT)) {
                     case "master":
-                        Role adminRole = roleRepository.findByName(RoleEnum.MASTER)
+                        Role masterRole = roleRepository.findByName(RoleEnum.MASTER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
+                        roles.add(masterRole);
 
                         break;
                     case "grand_employee":
-                        Role modRole = roleRepository.findByName(RoleEnum.GRAND_EMPLOYEE)
+                        Role grandEmployeeRole = roleRepository.findByName(RoleEnum.GRAND_EMPLOYEE)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(grandEmployeeRole);
 
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(RoleEnum.CURRENT_CLIENT)
+                        Role clientRole = roleRepository.findByName(RoleEnum.CURRENT_CLIENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
+                        roles.add(clientRole);
                 }
             });
         }

@@ -4,9 +4,13 @@ import by.t1.kotor.clientprocessing.model.enums.DocumentTypeEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Builder
 public record ClientResponse(
         @NotBlank(message = "firstName cannot be blank")
         String firstName,
