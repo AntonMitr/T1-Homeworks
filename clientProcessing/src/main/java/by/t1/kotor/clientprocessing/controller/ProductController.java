@@ -2,6 +2,7 @@ package by.t1.kotor.clientprocessing.controller;
 
 import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
+import by.t1.kotor.clientprocessing.service.MetricService;
 import by.t1.kotor.clientprocessing.service.ProductService;
 import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpIncomeRequestLog;
 import by.t1.kotor.crosscuttingstarter.aop.annotation.HttpOutcomeRequestLog;
@@ -19,6 +20,8 @@ public class ProductController {
 
     private final ProductService productService;
 
+    private final MetricService metricService;
+
     @PostMapping
     @HttpOutcomeRequestLog
     @HttpIncomeRequestLog
@@ -27,6 +30,8 @@ public class ProductController {
             @RequestBody ProductRequest request
     ) {
         ProductResponse response = productService.create(request);
+
+        metricService.incrementByName("products_created_total");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

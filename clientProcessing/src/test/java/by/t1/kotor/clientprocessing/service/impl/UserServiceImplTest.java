@@ -61,11 +61,11 @@ public class UserServiceImplTest {
     void signIn_shouldReturnJwt_whenCredentialsCorrect() throws Exception {
         UserCredentialDto dto = new UserCredentialDto("test@test.com", "pass");
         User user = new User();
-        user.setEmail(dto.email());
+        user.setEmail(dto.getEmail());
         user.setPassword("encodedPass");
 
-        when(userRepository.findByEmail(dto.email())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(dto.password(), user.getPassword())).thenReturn(true);
+        when(userRepository.findByEmail(dto.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(dto.getPassword(), user.getPassword())).thenReturn(true);
         JwtAuthenticationDto jwt = mock(JwtAuthenticationDto.class);
         when(jwtService.generateAuthToken(user.getEmail())).thenReturn(jwt);
 
@@ -77,7 +77,7 @@ public class UserServiceImplTest {
     @Test
     void signIn_shouldThrow_whenCredentialsIncorrect() {
         UserCredentialDto dto = new UserCredentialDto("test@test.com", "wrongPass");
-        when(userRepository.findByEmail(dto.email())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(dto.getEmail())).thenReturn(Optional.empty());
 
         assertThrows(AuthenticationException.class, () -> service.signIn(dto));
     }

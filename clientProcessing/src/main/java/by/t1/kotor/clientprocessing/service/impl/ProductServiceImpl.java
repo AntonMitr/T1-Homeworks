@@ -5,6 +5,7 @@ import by.t1.kotor.clientprocessing.mapper.ProductMapper;
 import by.t1.kotor.clientprocessing.model.Product;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductRequest;
 import by.t1.kotor.clientprocessing.model.dto.product.ProductResponse;
+import by.t1.kotor.clientprocessing.model.enums.KeyEnum;
 import by.t1.kotor.clientprocessing.repository.ProductRepository;
 import by.t1.kotor.clientprocessing.service.ProductService;
 import by.t1.kotor.crosscuttingstarter.aop.annotation.Cached;
@@ -77,6 +78,16 @@ public class ProductServiceImpl implements ProductService {
         }
         productRepository.deleteById(id);
         log.info("Product deleted successfully id={}", id);
+    }
+
+    @Override
+    public int countDeposits() {
+        return productRepository.countByKey(KeyEnum.CC);
+    }
+
+    @Override
+    public int countCreditCards() {
+        return productRepository.countByKey(KeyEnum.DC);
     }
 
     private Product getProductById(Long productId) {

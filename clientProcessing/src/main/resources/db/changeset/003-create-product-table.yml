@@ -18,7 +18,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: key
+                  name: product_key
                   type: VARCHAR(10)
                   constraints:
                     nullable: false

@@ -26,8 +26,6 @@ public class ClientController {
     private final RoleRepository roleRepository;
 
     @PostMapping("/register")
-    @HttpOutcomeRequestLog
-    @HttpIncomeRequestLog
     public ResponseEntity<ClientResponse> register(
             @Valid @RequestBody ClientRegistrationRequest request
     ) {
@@ -36,8 +34,6 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    @HttpOutcomeRequestLog
-    @HttpIncomeRequestLog
     public ResponseEntity<ClientResponse> getById(
             @PathVariable("id") Long id
     ) {

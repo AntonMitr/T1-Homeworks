@@ -22,7 +22,7 @@ public class Product extends BaseEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "key")
+    @Column(name = "product_key")
     private KeyEnum key;
 
     @Column(name = "create_date")

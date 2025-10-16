@@ -37,7 +37,6 @@ public class ClientServiceImpl implements ClientService {
     private final RoleRepository roleRepository;
 
     @Override
-    @LogDatasourceError
     public ClientResponse registerClient(ClientRegistrationRequest request) {
         log.info("Registering new client: {}", request);
 
@@ -85,7 +84,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @LogDatasourceError
     @Transactional(readOnly = true)
     public ClientResponse findById(Long id) {
         log.info("Fetching client by id={}", id);

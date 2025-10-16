@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+t1:
+  kafka:
+    bootstrap:
+      server: ${spring.embedded.kafka.brokers}
+    consumer:
+      group-id: t1-clientprocessing-test
+      max.poll.records: 10
+      session-timeout: 10000
+      heartbeat.interval: 3000
+    producer:
+      enable: true
+    topic:
+      client_cards: client_cards
+      client_products: client_products
+      client_credit_products: client_credit_products
+      client_transactions: client_transactions
+      service_logs: service_logs
+    listener:
+      poll-timeout: 1000
+
+logging:
+  level:
+    root: WARN

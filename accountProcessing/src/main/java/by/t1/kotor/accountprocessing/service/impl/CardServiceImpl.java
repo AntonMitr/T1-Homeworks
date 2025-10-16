@@ -36,7 +36,6 @@ public class CardServiceImpl implements CardService {
     @Value("${t1.kafka.services.client-processing.url}")
     private String baseUrl;
 
-    @LogDatasourceError
     public void create(CardMessage message) {
         log.debug("Received message to create card: clientId={}, productId={}, cardType={}",
                 message.clientId(), message.productId(), message.cardType());
@@ -75,6 +74,7 @@ public class CardServiceImpl implements CardService {
         log.debug("Updated account {}: set cardExist=true", account.getId());
     }
 
+    @Transactional(readOnly = true)
     public Card getCardByAccountId(Long accountId) {
         return cardRepository
                 .findByAccountId(accountId)

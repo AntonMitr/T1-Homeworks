@@ -7,7 +7,6 @@ import by.t1.kotor.clientprocessing.model.dto.client.ClientRegistrationRequest;
 import by.t1.kotor.clientprocessing.model.dto.security.JwtAuthenticationDto;
 import by.t1.kotor.clientprocessing.model.dto.security.RefreshTokenDto;
 import by.t1.kotor.clientprocessing.model.dto.security.UserCredentialDto;
-import by.t1.kotor.clientprocessing.model.enums.RoleEnum;
 import by.t1.kotor.clientprocessing.repository.UserRepository;
 import by.t1.kotor.clientprocessing.security.jwt.JwtService;
 import by.t1.kotor.clientprocessing.service.UserService;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public JwtAuthenticationDto refreshToken(RefreshTokenDto refreshTokenDto) throws Exception {
-            String refreshToken = refreshTokenDto.refreshToken();
+            String refreshToken = refreshTokenDto.getRefreshToken();
             if (refreshToken != null && jwtService.validateJwtToken(refreshToken)) {
                 User user = findByEmail(jwtService.getEmailFromToken(refreshToken));
                 return jwtService.refreshBaseToken(user.getEmail(), refreshToken);
@@ -53,10 +51,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private User findByCredentials(UserCredentialDto userCredentialDto) throws AuthenticationException {
-        Optional<User> optionalUser = userRepository.findByEmail(userCredentialDto.email());
+        Optional<User> optionalUser = userRepository.findByEmail(userCredentialDto.getEmail());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            if (passwordEncoder.matches(userCredentialDto.password(), user.getPassword())) {
+            if (passwordEncoder.matches(userCredentialDto.getPassword(), user.getPassword())) {
                 return user;
             }
         }

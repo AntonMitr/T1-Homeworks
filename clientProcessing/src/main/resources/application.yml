@@ -28,6 +28,23 @@ logging:
 metrics:
   execution-threshold-ms: 5000
 
+management:
+  metrics:
+    tags:
+      appName: "@project.build.finalName@"
+      application: "@project.name@"
+      appVersion: "@project.version@"
+  endpoints:
+    web.exposure.include: health,prometheus,metrics,info,kafka
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        group:
+          readiness:
+            include: db
+    restart.enabled: true
+
 t1:
   scan-path: by.t1.kotor.clientprocessing
 
@@ -61,8 +78,6 @@ security:
   expiration:
     jwt-token: 60000
     refresh-token: 86400000
-
-
 
 server:
   port: 8081

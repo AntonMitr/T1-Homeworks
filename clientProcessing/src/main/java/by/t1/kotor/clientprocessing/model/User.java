@@ -25,6 +25,7 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

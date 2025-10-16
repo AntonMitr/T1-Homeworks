@@ -12,6 +12,7 @@ import by.t1.kotor.clientprocessing.model.enums.DocumentTypeEnum;
 import by.t1.kotor.clientprocessing.model.enums.RoleEnum;
 import by.t1.kotor.clientprocessing.repository.BlacklistRegistryRepository;
 import by.t1.kotor.clientprocessing.repository.ClientRepository;
+import by.t1.kotor.clientprocessing.service.RoleRepository;
 import by.t1.kotor.clientprocessing.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +39,8 @@ public class ClientServiceImplTest {
     private UserService userService;
     @Mock
     private ClientMapper clientMapper;
+    @Mock
+    private RoleRepository roleRepository;
 
     @InjectMocks
     private ClientServiceImpl clientService;
@@ -66,7 +69,7 @@ public class ClientServiceImplTest {
         ).thenReturn(true);
 
         assertThrows(BlacklistedClientException.class, () ->
-                clientService.registerClient(request, Collections.emptySet())
+                clientService.registerClient(request)
         );
 
         verify(clientRepository, never()).save(any());
@@ -87,8 +90,10 @@ public class ClientServiceImplTest {
         when(userService.create(eq(request), any())).thenReturn(user);
         when(clientRepository.save(client)).thenReturn(client);
         when(clientMapper.toDto(client)).thenReturn(response);
+        when(roleRepository.findByName(RoleEnum.CURRENT_CLIENT))
+                .thenReturn(Optional.of(new Role(RoleEnum.CURRENT_CLIENT)));
 
-        ClientResponse result = clientService.registerClient(request, Set.of(new Role(RoleEnum.CURRENT_CLIENT)));
+        ClientResponse result = clientService.registerClient(request);
 
         assertNotNull(result);
         assertEquals(response, result);

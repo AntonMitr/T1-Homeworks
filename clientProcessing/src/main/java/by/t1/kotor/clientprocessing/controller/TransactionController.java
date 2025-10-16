@@ -19,8 +19,6 @@ public class TransactionController {
     private final TransactionRequestService transactionRequestService;
 
     @PostMapping
-    @HttpOutcomeRequestLog
-    @HttpIncomeRequestLog
     public ResponseEntity<Void> createTransaction(@RequestBody TransactionRequest transactionRequest) {
         transactionRequestService.sendCardCreateMessage(transactionRequest);
         return ResponseEntity.accepted().build();

@@ -1,6 +1,30 @@
 version: '3.8'
 
 services:
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus/
+    container_name: prometheus
+    hostname: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      - default
+
+  wiremock-demo:
+    image: bscmsc/bsc-wire-mock:latest
+    ports:
+      - "1398:1398"
+    volumes:
+      - ./wiremock/mappings:/app/mappings
+
   client-processing:
     build: ./clientProcessing
     container_name: client-processing

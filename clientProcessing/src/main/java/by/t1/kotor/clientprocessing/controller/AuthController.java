@@ -5,6 +5,7 @@ import by.t1.kotor.clientprocessing.model.dto.security.RefreshTokenDto;
 import by.t1.kotor.clientprocessing.model.dto.security.UserCredentialDto;
 import by.t1.kotor.clientprocessing.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class AuthController {
             JwtAuthenticationDto jwtAuthenticationDto = userService.signIn(userCredentialDto);
             return ResponseEntity.ok(jwtAuthenticationDto);
         } catch (AuthenticationException ex) {
-            throw new RuntimeException("Authentication failed" + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
