@@ -1,7 +1,7 @@
 package by.t1.kotor.clientprocessing.model.enums;
 
 public enum Metrics {
-    CLIENT_CONTROLLER_REQUEST_COUNT("products_created_total");
+    CLIENT_CONTROLLER_REQUEST_COUNT("products_total");
 
     private final String name;
 

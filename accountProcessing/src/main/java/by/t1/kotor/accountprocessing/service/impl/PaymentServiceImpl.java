@@ -30,9 +30,9 @@ public class PaymentServiceImpl implements PaymentService {
     public void processPayment(PaymentRegistryMessage message) {
         log.debug("Processing payment message: {}", message);
 
-        Account account = accountRepository.findById(message.accountId()).orElse(null);
+        Account account = accountRepository.findById(message.getAccountId()).orElse(null);
         if (account == null) {
-            log.warn("Account not found for accountId={}", message.accountId());
+            log.warn("Account not found for accountId={}", message.getAccountId());
             return;
         }
         log.debug("Account found: id={}, balance={}", account.getId(), account.getBalance());
@@ -43,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         log.debug("Total unpaid debt for account {}: {}", account.getId(), totalDebt);
 
-        if (message.amount().compareTo(totalDebt) == 0) {
+        if (message.getAmount().compareTo(totalDebt) == 0) {
             List<Payment> unpaidPayments = paymentRepository.findByAccountIdAndPayedAtIsNull(account.getId());
             unpaidPayments.forEach(p -> p.setPayedAt(LocalDateTime.now()));
             paymentRepository.saveAll(unpaidPayments);
@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             Payment newPayment = Payment.builder()
                     .account(account)
-                    .amount(message.amount())
+                    .amount(message.getAmount())
                     .paymentDate(LocalDate.now())
                     .payedAt(LocalDateTime.now())
                     .isCredit(true)
@@ -59,39 +59,39 @@ public class PaymentServiceImpl implements PaymentService {
                     .type(PaymentTypeEnum.FULL_REPAYMENT)
                     .build();
             paymentRepository.save(newPayment);
-            log.info("New payment record created: accountId={}, amount={}", account.getId(), message.amount());
+            log.info("New payment record created: accountId={}, amount={}", account.getId(), message.getAmount());
 
-            account.setBalance(account.getBalance().subtract(message.amount()));
+            account.setBalance(account.getBalance().subtract(message.getAmount()));
             accountRepository.save(account);
             log.info("Account balance updated after payment: accountId={}, newBalance={}", account.getId(), account.getBalance());
         } else {
-            log.warn("Payment amount {} does not match debt {} for account {}", message.amount(), totalDebt, account.getId());
+            log.warn("Payment amount {} does not match debt {} for account {}", message.getAmount(), totalDebt, account.getId());
         }
     }
 
     @LogDatasourceError
     public void createPaymentSchedule(PaymentRegistryMessage message) {
-        Account account = accountRepository.findById(message.accountId())
-                .orElseThrow(() -> new RuntimeException("Account not found: " + message.accountId()));
+        Account account = accountRepository.findById(message.getAccountId())
+                .orElseThrow(() -> new RuntimeException("Account not found: " + message.getAccountId()));
 
-        log.info("Received partial payment for account {}: amount={}", account.getId(), message.amount());
+        log.info("Received partial payment for account {}: amount={}", account.getId(), message.getAmount());
 
-        boolean exists = paymentRepository.existsByAccountAndPaymentDate(account, message.paymentExpirationDate());
+        boolean exists = paymentRepository.existsByAccountAndPaymentDate(account, message.getPaymentExpirationDate());
         if (exists) {
-            log.info("Payment already exists for accountId={} on {}", account.getId(), message.paymentExpirationDate());
+            log.info("Payment already exists for accountId={} on {}", account.getId(), message.getPaymentExpirationDate());
             return;
         }
 
         Payment payment = new Payment();
         payment.setAccount(account);
-        payment.setPaymentDate(message.paymentExpirationDate());
-        payment.setAmount(message.amount());
+        payment.setPaymentDate(message.getPaymentExpirationDate());
+        payment.setAmount(message.getAmount());
         payment.setIsCredit(true);
         payment.setExpired(false);
         payment.setType(PaymentTypeEnum.MONTHLY_INTEREST);
         payment.setPayedAt(null);
         paymentRepository.save(payment);
 
-        log.info("Scheduled new payment for account {} on {}: amount={}", account.getId(), message.paymentExpirationDate(), message.amount());
+        log.info("Scheduled new payment for account {} on {}: amount={}", account.getId(), message.getPaymentExpirationDate(), message.getAmount());
     }
 }

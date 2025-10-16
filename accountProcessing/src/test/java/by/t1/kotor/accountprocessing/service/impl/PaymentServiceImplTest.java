@@ -128,7 +128,7 @@ class PaymentServiceImplTest {
         );
 
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
-        when(paymentRepository.existsByAccountAndPaymentDate(account, message.paymentExpirationDate()))
+        when(paymentRepository.existsByAccountAndPaymentDate(account, message.getPaymentExpirationDate()))
                 .thenReturn(false);
 
         paymentService.createPaymentSchedule(message);
@@ -155,7 +155,7 @@ class PaymentServiceImplTest {
         );
 
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
-        when(paymentRepository.existsByAccountAndPaymentDate(account, message.paymentExpirationDate()))
+        when(paymentRepository.existsByAccountAndPaymentDate(account, message.getPaymentExpirationDate()))
                 .thenReturn(true);
 
         paymentService.createPaymentSchedule(message);
