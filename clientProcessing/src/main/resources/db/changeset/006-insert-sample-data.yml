@@ -1,0 +1,135 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-insert-clientprocessing-sample-data
+      author: Kotor
+      changes:
+        # ----------------- USERS -----------------
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: login, value: "user1" }
+              - column: { name: email, value: "user1@example.com" }
+              - column: { name: password, value: "$2a$04$qYPa70ZOAvZFySw8Ow37XO7bqFSRJ3C.mNLgMl0OGBXZug95BWP.2" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: login, value: "user2" }
+              - column: { name: email, value: "user2@example.com" }
+              - column: { name: password, value: "$2a$04$pVUPegOXDNo1Cae4NWgmi.fNfJYBN0Kf72xkNt3VxlKCwWkKICU0S" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: login, value: "user3" }
+              - column: { name: email, value: "user3@example.com" }
+              - column: { name: password, value: "$2a$04$ifCRAYV9cNsDBgH/BPXRqeRggIF8NWxEnrSSyDL.j.kbtyEMyp3Vm" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: login, value: "user4" }
+              - column: { name: email, value: "user4@example.com" }
+              - column: { name: password, value: "$2a$04$K6JmDibFhab1tzGChmZCcOkHRTLTNPkjxJk5zKkuOjxyJRz.t4qMW" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: login, value: "user5" }
+              - column: { name: email, value: "user5@example.com" }
+              - column: { name: password, value: "$2a$04$uFLQxUfBfwPrOgRh43iIW.vp9jCFk5HEunesOAblnVjn7.CKgZmpa" }
+
+        # ----------------- CLIENTS -----------------
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: client_id, value: "C001" }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: first_name, value: "Ivan" }
+              - column: { name: middle_name, value: "Ivanovich" }
+              - column: { name: last_name, value: "Petrov" }
+              - column: { name: date_of_birth, valueDate: "1990-01-01" }
+              - column: { name: document_type, value: PASSPORT }
+              - column: { name: document_id, value: "MP1234567" }
+              - column: { name: document_prefix, value: "MP" }
+              - column: { name: document_suffix, value: "7" }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: client_id, value: "C002" }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: first_name, value: "Petr" }
+              - column: { name: middle_name, value: "Sergeevich" }
+              - column: { name: last_name, value: "Sidorov" }
+              - column: { name: date_of_birth, valueDate: "1985-05-15" }
+              - column: { name: document_type, value: INT_PASSPORT }
+              - column: { name: document_id, value: "AB7654321" }
+              - column: { name: document_prefix, value: "AB" }
+              - column: { name: document_suffix, value: "1" }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: client_id, value: "C003" }
+              - column: { name: user_id, valueNumeric: 3 }
+              - column: { name: first_name, value: "Olga" }
+              - column: { name: middle_name, value: "Nikolaevna" }
+              - column: { name: last_name, value: "Smirnova" }
+              - column: { name: date_of_birth, valueDate: "1995-03-20" }
+              - column: { name: document_type, value: PASSPORT }
+              - column: { name: document_id, value: "MP9876543" }
+              - column: { name: document_prefix, value: "MP" }
+              - column: { name: document_suffix, value: "3" }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: client_id, value: "C004" }
+              - column: { name: user_id, valueNumeric: 4 }
+              - column: { name: first_name, value: "Sergey" }
+              - column: { name: middle_name, value: "Ivanovich" }
+              - column: { name: last_name, value: "Kuznetsov" }
+              - column: { name: date_of_birth, valueDate: "1978-09-10" }
+              - column: { name: document_type, value: BIRTH_CERT }
+              - column: { name: document_id, value: "BC123456" }
+              - column: { name: document_prefix, value: "BC" }
+              - column: { name: document_suffix, value: "6" }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: client_id, value: "C005" }
+              - column: { name: user_id, valueNumeric: 5 }
+              - column: { name: first_name, value: "Anna" }
+              - column: { name: middle_name, value: "Petrovna" }
+              - column: { name: last_name, value: "Koval" }
+              - column: { name: date_of_birth, valueDate: "2000-12-25" }
+              - column: { name: document_type, value: PASSPORT }
+              - column: { name: document_id, value: "MP5554443" }
+              - column: { name: document_prefix, value: "MP" }
+              - column: { name: document_suffix, value: "3" }
+
+        # ----------------- PRODUCTS -----------------
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: name, value: "Debit Card" }
+              - column: { name: product_key, value: DC }
+              - column: { name: create_date, valueDate: "2025-01-01T12:00:00" }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: name, value: "Credit Card" }
+              - column: { name: product_key, value: CC }
+              - column: { name: create_date, valueDate: "2025-01-02T12:00:00" }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: name, value: "Account" }
+              - column: { name: product_key, value: AC }
+              - column: { name: create_date, valueDate: "2025-01-03T12:00:00" }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: name, value: "IPO" }
+              - column: { name: product_key, value: IPO }
+              - column: { name: create_date, valueDate: "2025-01-04T12:00:00" }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: name, value: "Pension Fund" }
+              - column: { name: product_key, value: PENS }
+              - column: { name: create_date, valueDate: "2025-01-05T12:00:00" }

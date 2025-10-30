@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changeset/001-create-account-table.yml
+  - include:
+      file: classpath:db/changeset/002-create-card-table.yml
+  - include:
+      file: classpath:db/changeset/003-create-payment-table.yml
+  - include:
+      file: classpath:db/changeset/004-create-transaction-table.yml
+  - include:
+      file: classpath:db/changeset/005-add-expired-flag-column-to-payment.yml
+  - include:
+      file: classpath:db/changeset/006-create-error-log-table.yml

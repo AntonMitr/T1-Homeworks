@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-insert-roles-to-role-table
+      author: Kotor
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: name, value: "CURRENT_CLIENT" }
+
+        - insert:
+            tableName: role
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: name, value: "MASTER" }
+
+        - insert:
+            tableName: role
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: name, value: "GRAND_EMPLOYEE" }
+
+        - insert:
+            tableName: role
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: name, value: "BLOCKED_CLIENT" }

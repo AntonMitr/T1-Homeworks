@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4-create-client-product-table
+      author: Kotor
+      changes:
+        - createTable:
+            tableName: client_products
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: open_date
+                  type: DATE
+              - column:
+                  name: close_date
+                  type: DATE
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: client_products
+            baseColumnNames: client_id
+            constraintName: fk_client_products_clients
+            referencedTableName: clients
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: client_products
+            baseColumnNames: product_id
+            constraintName: fk_client_products_products
+            referencedTableName: products
+            referencedColumnNames: id

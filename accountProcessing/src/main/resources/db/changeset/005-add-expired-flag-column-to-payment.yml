@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-add-expired-flag-column-to-payment.yml
+      author: Kotor
+      changes:
+        - addColumn:
+            tableName: payments
+            columns:
+              - column:
+                  name: expired
+                  type: BOOLEAN
+                  defaultValueBoolean: false
